@@ -1,5 +1,6 @@
+# STAGING — web je skrytý do spuštění na tamforever.cz.
+# Při ostrém spuštění vrátit na "Allow: /" (viz README, sekce Spuštění).
 User-agent: *
-Allow: /
-Disallow: /dekujeme.html
+Disallow: /
 
 Sitemap: https://tamforever.cz/sitemap.xml

@@ -91,6 +91,19 @@ Web teď používá **placeholdery z design systému**. Před spuštěním dopl�
 
 ---
 
+## Spuštění na ostrou doménu (tamforever.cz)
+
+Web teď běží jako **skrytá staging verze** — neindexuje se Googlem. Při ostrém spuštění:
+
+1. Ve `index.html`, `pro-mesta.html`, `pro-firmy.html`, `pro-svatby.html` **odstranit** řádek
+   `<meta name="robots" content="noindex, nofollow" />` (označený komentářem `STAGING`).
+2. V `robots.txt` vrátit `Disallow: /` zpět na `Allow: /`.
+3. Na Netlify přidat doménu `tamforever.cz`; u Forpsi nastavit DNS (A záznam na IP Netlify + CNAME `www`).
+
+Body 1–2 udělá Claude jedním commitem, až řekneš „spouštíme". Viz také [OBSAH.md](OBSAH.md).
+
+---
+
 ## Co je hotové
 
 Homepage + 3 landing stránky · plně responzivní (mobil/tablet/desktop) · funkční formulář ·
