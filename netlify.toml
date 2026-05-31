@@ -1,0 +1,41 @@
+# Netlify konfigurace — statický web, žádný build.
+[build]
+  publish = "."
+  command = ""
+
+# Hezké URL bez .html (/pro-mesta místo /pro-mesta.html)
+[[redirects]]
+  from = "/pro-mesta"
+  to = "/pro-mesta.html"
+  status = 200
+[[redirects]]
+  from = "/pro-firmy"
+  to = "/pro-firmy.html"
+  status = 200
+[[redirects]]
+  from = "/pro-svatby"
+  to = "/pro-svatby.html"
+  status = 200
+
+# Bezpečnostní a cache hlavičky
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

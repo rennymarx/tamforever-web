@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /dekujeme.html
+
+Sitemap: https://tamforever.cz/sitemap.xml
