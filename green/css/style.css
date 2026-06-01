@@ -80,7 +80,11 @@ h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 400; lett
    ============================================================ */
 .nav { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: var(--thick); }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 16px; padding-bottom: 16px; }
-.nav__logo img { height: 56px; width: auto; }
+.nav__logo img { height: 44px; width: auto; }
+/* Domovská stránka: velké logo v hero; logo v liště se objeví až po odscrollování. */
+.hero__logo { display: block; height: clamp(72px, 10vw, 116px); width: auto; margin-bottom: clamp(12px, 2.2vw, 20px); }
+body.home .nav__inner .nav__logo { opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; }
+body.home.nav-scrolled .nav__inner .nav__logo { opacity: 1; visibility: visible; }
 .nav__links { display: flex; gap: 0; border: 2px solid var(--ink); }
 .nav__links a {
   padding: 11px 16px; border-left: 2px solid var(--ink);

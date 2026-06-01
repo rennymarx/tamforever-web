@@ -27,7 +27,13 @@
     }
   }
 
-  function init() { initNav(); initMarquee(); }
+  function initScrollReveal() {
+    function onScroll() { document.body.classList.toggle("nav-scrolled", window.scrollY > 90); }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  function init() { initNav(); initMarquee(); initScrollReveal(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();

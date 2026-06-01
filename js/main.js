@@ -77,10 +77,18 @@
     }
   }
 
+  /* ---------- Logo v liště se objeví po odscrollování (domovská stránka) ---------- */
+  function initScrollReveal() {
+    function onScroll() { document.body.classList.toggle("nav-scrolled", window.scrollY > 90); }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
   function init() {
     renderStages();
     initNav();
     initMarquee();
+    initScrollReveal();
   }
 
   if (document.readyState === "loading") {

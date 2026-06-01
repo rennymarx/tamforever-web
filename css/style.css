@@ -104,7 +104,12 @@ h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 700; lett
   display: flex; align-items: center; justify-content: space-between;
   gap: 18px; padding-top: 16px; padding-bottom: 16px;
 }
-.nav__logo img { height: 60px; width: auto; }
+.nav__logo img { height: 48px; width: auto; }
+/* Domovská stránka: velké logo v hero; logo v liště se objeví až po odscrollování
+   (aby nebyla 2 loga zároveň). Netýká se landing breadcrumbu ani děkovací stránky. */
+.hero__logo { display: block; height: clamp(80px, 11vw, 132px); width: auto; margin-bottom: clamp(14px, 2.4vw, 22px); filter: drop-shadow(0 6px 30px rgba(0,0,0,0.45)); }
+body.home .nav__inner .nav__logo { opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; }
+body.home.nav-scrolled .nav__inner .nav__logo { opacity: 1; visibility: visible; }
 .nav__links {
   display: flex; gap: clamp(16px, 2.4vw, 28px);
   font: 500 12px/1 var(--font-mono);
