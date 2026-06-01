@@ -3,21 +3,19 @@
   publish = "."
   command = ""
 
-# Hezké URL bez .html (/pro-mesta místo /pro-mesta.html)
+# Hezké URL bez .html — vývojové varianty /gold a /green
 [[redirects]]
-  from = "/pro-mesta"
-  to = "/pro-mesta.html"
+  from = "/gold/pro-mesta"
+  to = "/gold/pro-mesta.html"
   status = 200
 [[redirects]]
-  from = "/pro-firmy"
-  to = "/pro-firmy.html"
+  from = "/gold/pro-firmy"
+  to = "/gold/pro-firmy.html"
   status = 200
 [[redirects]]
-  from = "/pro-svatby"
-  to = "/pro-svatby.html"
+  from = "/gold/pro-svatby"
+  to = "/gold/pro-svatby.html"
   status = 200
-
-# Varianta C · Vlnoplocha (green) — hezké URL
 [[redirects]]
   from = "/green/pro-mesta"
   to = "/green/pro-mesta.html"
@@ -31,7 +29,7 @@
   to = "/green/pro-svatby.html"
   status = 200
 
-# Bezpečnostní a cache hlavičky
+# Bezpečnostní hlavičky (všude)
 [[headers]]
   for = "/*"
   [headers.values]
@@ -39,17 +37,18 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
+# Loga — dlouhá cache (nemění se)
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Varianty — vždy ověřit čerstvost, aby se úpravy projevily hned
 [[headers]]
-  for = "/css/*"
+  for = "/gold/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-
 [[headers]]
-  for = "/js/*"
+  for = "/green/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"

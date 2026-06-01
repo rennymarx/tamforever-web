@@ -79,8 +79,14 @@
 
   /* ---------- Logo v liště se objeví po odscrollování (domovská stránka) ---------- */
   function initScrollReveal() {
-    function onScroll() { document.body.classList.toggle("nav-scrolled", window.scrollY > 90); }
+    var hl = document.querySelector(".hero__logo");
+    function onScroll() {
+      // logo v liště odhalíme, až když velké hero logo odscrolluje nad viewport
+      var t = hl ? (hl.getBoundingClientRect().bottom + window.scrollY) : 9999;
+      document.body.classList.toggle("nav-scrolled", window.scrollY > t);
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("load", onScroll);
     onScroll();
   }
 

@@ -1,6 +1,6 @@
-# STAGING — web je skrytý do spuštění na tamforever.cz.
-# Při ostrém spuštění vrátit na "Allow: /" (viz README, sekce Spuštění).
+# Titulní "Coming soon" je veřejná. Vývojové varianty /gold a /green jsou skryté.
 User-agent: *
-Disallow: /
+Disallow: /gold/
+Disallow: /green/
 
 Sitemap: https://tamforever.cz/sitemap.xml
