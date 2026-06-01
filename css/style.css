@@ -55,6 +55,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 .section-pad { padding-top: clamp(48px, 8vw, 70px); padding-bottom: clamp(48px, 8vw, 70px); }
 .panel-bg { background: var(--panel); }
 
+/* Odsazení kotev pod sticky navigaci (jinak je horní část sekce oříznutá) */
+#top, #pro-poradatele, #repertoar, #reference, #kontakt { scroll-margin-top: 88px; }
+
 /* ---------- Typography helpers ---------- */
 .eyebrow {
   font: 500 11px/1 var(--font-mono);
