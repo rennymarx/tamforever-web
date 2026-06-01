@@ -104,7 +104,7 @@ h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 700; lett
   display: flex; align-items: center; justify-content: space-between;
   gap: 18px; padding-top: 16px; padding-bottom: 16px;
 }
-.nav__logo img { height: 34px; width: auto; }
+.nav__logo img { height: 60px; width: auto; }
 .nav__links {
   display: flex; gap: clamp(16px, 2.4vw, 28px);
   font: 500 12px/1 var(--font-mono);
