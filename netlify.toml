@@ -17,6 +17,20 @@
   to = "/pro-svatby.html"
   status = 200
 
+# Varianta C · Vlnoplocha (green) — hezké URL
+[[redirects]]
+  from = "/green/pro-mesta"
+  to = "/green/pro-mesta.html"
+  status = 200
+[[redirects]]
+  from = "/green/pro-firmy"
+  to = "/green/pro-firmy.html"
+  status = 200
+[[redirects]]
+  from = "/green/pro-svatby"
+  to = "/green/pro-svatby.html"
+  status = 200
+
 # Bezpečnostní a cache hlavičky
 [[headers]]
   for = "/*"
