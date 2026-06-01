@@ -125,11 +125,9 @@
   }
   .wink b { color: #e3a13a; font-weight: 500; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .steam, .lid, .embers, .plotna { animation: none !important; }
-    .steam { opacity: 0.4; }
-    .spark, .spit { display: none; }
-  }
+  /* Pozn.: animace kotle běží i při systémovém "omezeném pohybu" (Windows: Efekty animací
+     vypnuté → jinak by byla titulka na takovém PC statická). Je to vědomé rozhodnutí —
+     pohyb je tu součást brandu, ne jen dekorace. */
 </style>
 </head>
 <body>
