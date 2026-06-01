@@ -24,7 +24,7 @@
 
   --thick: 3px solid var(--ink);
 
-  --fs-hero:  clamp(3rem, 13vw, 11rem);
+  --fs-hero:  clamp(2.4rem, 8vw, 6.5rem);
   --fs-h2:    clamp(2rem, 5.5vw, 3.5rem);
   --fs-h3:    clamp(1.8rem, 3.6vw, 2.6rem);
 
