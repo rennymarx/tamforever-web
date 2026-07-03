@@ -1,21 +1,10 @@
 # Netlify konfigurace — statický web, žádný build.
+# Root = Coming soon (veřejná). Drafty k ladění: /gold, /green, /final (noindex + robots Disallow).
 [build]
   publish = "."
   command = ""
 
-# ---------- Drafty /gold a /green → 301 na ostrou homepage (spec §4) ----------
-[[redirects]]
-  from = "/gold/*"
-  to = "/"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/green/*"
-  to = "/"
-  status = 301
-  force = true
-
-# ---------- Interní dokumenty repa nepatří na produkci (DoD 1) ----------
+# ---------- Interní dokumenty repa nepatří na produkci ----------
 [[redirects]]
   from = "/README.md"
   to = "/404.html"
@@ -32,26 +21,50 @@
   status = 404
   force = true
 
-# ---------- Hezké URL bez .html ----------
+# ---------- Hezké URL bez .html — drafty ----------
 [[redirects]]
-  from = "/pro-mesta"
-  to = "/pro-mesta.html"
+  from = "/gold/pro-mesta"
+  to = "/gold/pro-mesta.html"
   status = 200
 [[redirects]]
-  from = "/pro-firmy"
-  to = "/pro-firmy.html"
+  from = "/gold/pro-firmy"
+  to = "/gold/pro-firmy.html"
   status = 200
 [[redirects]]
-  from = "/pro-svatby"
-  to = "/pro-svatby.html"
+  from = "/gold/pro-svatby"
+  to = "/gold/pro-svatby.html"
   status = 200
 [[redirects]]
-  from = "/dekujeme"
-  to = "/dekujeme.html"
+  from = "/green/pro-mesta"
+  to = "/green/pro-mesta.html"
   status = 200
 [[redirects]]
-  from = "/ochrana-osobnich-udaju"
-  to = "/ochrana-osobnich-udaju.html"
+  from = "/green/pro-firmy"
+  to = "/green/pro-firmy.html"
+  status = 200
+[[redirects]]
+  from = "/green/pro-svatby"
+  to = "/green/pro-svatby.html"
+  status = 200
+[[redirects]]
+  from = "/final/pro-mesta"
+  to = "/final/pro-mesta.html"
+  status = 200
+[[redirects]]
+  from = "/final/pro-firmy"
+  to = "/final/pro-firmy.html"
+  status = 200
+[[redirects]]
+  from = "/final/pro-svatby"
+  to = "/final/pro-svatby.html"
+  status = 200
+[[redirects]]
+  from = "/final/dekujeme"
+  to = "/final/dekujeme.html"
+  status = 200
+[[redirects]]
+  from = "/final/ochrana-osobnich-udaju"
+  to = "/final/ochrana-osobnich-udaju.html"
   status = 200
 
 # ---------- Bezpečnostní hlavičky (všude) ----------
@@ -68,12 +81,16 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-# CSS/JS — vždy ověřit čerstvost, úpravy se projeví hned
+# Drafty — vždy ověřit čerstvost, úpravy se projeví hned
 [[headers]]
-  for = "/css/*"
+  for = "/gold/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 [[headers]]
-  for = "/js/*"
+  for = "/green/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+[[headers]]
+  for = "/final/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"

@@ -1,5 +1,7 @@
-# /dekujeme se neindexuje přes meta noindex (Disallow by Googlebotu bránil noindex přečíst)
+# Titulní "Coming soon" je veřejná. Drafty /gold, /green a /final jsou skryté (ladění).
 User-agent: *
-Allow: /
+Disallow: /gold/
+Disallow: /green/
+Disallow: /final/
 
 Sitemap: https://tamforever.cz/sitemap.xml

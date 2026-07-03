@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- DRAFT /final — noindex; při ostrém spuštění odstranit -->
+<meta name="robots" content="noindex, nofollow" />
+<title>TAM forever — hlasitá pop-rocková kapela | Praha</title>
+<meta name="description" content="Hlasitá pop-rocková kapela s vlastní českou tvorbou. 25 vlastních písní, 15 hitů. Městské slavnosti, firemní dny, rockové svatby. Praha a okolí." />
+<link rel="canonical" href="https://tamforever.cz/" />
+
+<!-- Open Graph + Twitter -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="TAM forever — hlasitá pop-rocková kapela" />
+<meta property="og:description" content="25 vlastních písní, 15 hitů. Kapela jako hlavní událost večera — ne hraní v pozadí." />
+<meta property="og:locale" content="cs_CZ" />
+<meta property="og:url" content="https://tamforever.cz/" />
+<meta property="og:image" content="https://tamforever.cz/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="TAM forever — hlasitá pop-rocková kapela" />
+<meta name="twitter:description" content="25 vlastních písní, 15 hitů. Kapela jako hlavní událost večera — ne hraní v pozadí." />
+<meta name="twitter:image" content="https://tamforever.cz/assets/og-image.jpg" />
+
+<!-- Favicon sada -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230f1226'/><text x='16' y='23' font-size='22' text-anchor='middle' fill='%23e3a13a' font-family='Georgia,serif'>%E2%88%9E</text></svg>" />
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Preload klíčových řezů (Antonio 700, IBM Plex Sans 400 · latin+latin-ext, v22/v23).
+     Když Google zrotuje verzi souborů, preload se jen mine (warning) — stylesheet níže funguje dál. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/antonio/v22/gNMEW3NwSYq_9WD3yHoiFbez.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/antonio/v22/gNMEW3NwSYq_9WD3yHQiFQ.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxQKYbABA.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYY.woff2" />
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@600;700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+
+<script>
+/* ============================================================
+   PODKLADY (P1–P7) — JEDINÉ místo pro aktualizaci dat webu.
+   Prázdná hodnota = prvek se na webu vůbec nezobrazí (žádná
+   výplňová data, žádné mrtvé odkazy).
+   ============================================================ */
+window.TAM = {
+  /* P2 · YouTube ID demo sestřihu (jen ID, např. "dQw4w9WgXcQ") */
+  videoId: "",
+  /* P4 · reálný telefon producenta, např. "+420 777 888 999" */
+  phone: "",
+  /* P5 · fakturační identita do patičky, např. " · TAM forever s.r.o. · IČO 12345678" */
+  billing: "",
+  /* P6 · odkazy jen na existující profily (prázdné = nezobrazí se) */
+  socials: {
+    spotify: "",
+    youtube: "",
+    apple: "",
+    facebook: "",
+    instagram: ""
+  },
+  /* P7 · veřejné koncerty pro „Kde hrajeme letos" — 3–5 položek
+     formát: ["21. 6. 2027", "Beroun", "Berounský jarmark"] */
+  concerts: [],
+  /* P1 · volné soboty (z kalendáře kapely!) — formát: ["19·VI", "sobota · slavnost"] */
+  dates: []
+};
+</script>
+</head>
+<body id="top">
+
+<!-- ============================= NAV ============================= -->
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="TAM forever — domů">
+      <img src="../assets/logo-foil.webp" alt="TAM forever" width="81" height="60" />
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Hlavní navigace">
+      <a href="#top" aria-current="page">Kapela</a>
+      <a href="#repertoar">Hudba</a>
+      <a href="#pro-poradatele">Pro pořadatele</a>
+      <a href="#reference">Reference</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn btn--sm nav__cta" href="#kontakt">Pošlete poptávku →</a>
+    <button class="nav__burger" id="navBurger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+  </div>
+</header>
+
+<main>
+  <!-- ============================= HERO ============================= -->
+  <section class="hero">
+    <div class="hero__bg">
+      <!-- P3: až dorazí fotka davu z Berouna, nahradit tento blok:
+           <img class="hero__photo" src="../assets/hero.webp" alt="Publikum na Berounském jarmarku 2025" fetchpriority="high" />
+           Do té doby ilustrace pódia (SVG, kreslí js/main.js). -->
+      <div class="stage" data-stage data-label=""></div>
+    </div>
+    <div class="hero__overlay"></div>
+    <div class="wrap hero__content">
+      <p class="eyebrow">pop-rocková kapela · Praha · est. 2014</p>
+      <h1 class="hero__headline">Nejsme jukebox.
+Nehrajeme tiše.
+Hrajeme svoje.</h1>
+      <p class="hero__sub serif">Hlasitá pop-rocková kapela s vlastní českou tvorbou — když má být kapela hlavní událostí večera, ne hraním v pozadí. 25 vlastních písní, 15 hitů. Pro městské slavnosti, firemní dny a rockové svatby.</p>
+      <div class="hero__cta">
+        <a class="btn" href="#kontakt">Pošlete poptávku →</a>
+        <a class="btn btn--ghost js-video-cta" href="#demo" hidden>▶ Hrát video · 2:48</a>
+      </div>
+    </div>
+
+    <!-- 3 persony jako primární navigace -->
+    <div class="wrap personas" id="pro-poradatele">
+      <a class="pcard" href="pro-mesta.html">
+        <div class="pcard__top"><span class="pcard__badge">01</span><span class="pcard__persona">pro Žanetu</span></div>
+        <h2 class="pcard__title">Pro města
+a slavnosti</h2>
+        <ul class="pcard__bullets">
+          <li>Letní noci na náměstí</li>
+          <li>Pivní slavnosti, jarmarky, vinobraní</li>
+          <li>Plná technika v ceně</li>
+        </ul>
+        <div class="pcard__foot"><span class="pcard__price">60–100 000 Kč</span><span class="pcard__detail">Detail →</span></div>
+      </a>
+      <a class="pcard" href="pro-firmy.html">
+        <div class="pcard__top"><span class="pcard__badge">02</span><span class="pcard__persona">pro Lukáše</span></div>
+        <h2 class="pcard__title">Pro firmy
+a rockový tým</h2>
+        <ul class="pcard__bullets">
+          <li>Letní firemní dny pro 500–1500 lidí</li>
+          <li>Pre-vánoční oslavy, výročí</li>
+          <li>Faktura, smlouva, GDPR</li>
+        </ul>
+        <div class="pcard__foot"><span class="pcard__price">60–90 000 Kč</span><span class="pcard__detail">Detail →</span></div>
+      </a>
+      <a class="pcard" href="pro-svatby.html">
+        <div class="pcard__top"><span class="pcard__badge">03</span><span class="pcard__persona">pro Petra &amp; Magdu</span></div>
+        <h2 class="pcard__title">Pro svatby
+a výročí</h2>
+        <ul class="pcard__bullets">
+          <li>Rocková svatba, ne jukebox</li>
+          <li>Kratší formát 2–3 hodiny</li>
+          <li>Vlastní písně + české hity</li>
+        </ul>
+        <div class="pcard__foot"><span class="pcard__price">35–55 000 Kč</span><span class="pcard__detail">Detail →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================= MARQUEE BENEFITŮ ============================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>★</span> 25 VLASTNÍCH <span>★</span> 15 HITŮ <span>★</span> ŽÁDNÝ JUKEBOX <span>★</span> PLNÁ TECHNIKA V CENĚ&nbsp;
+      <span>★</span> 25 VLASTNÍCH <span>★</span> 15 HITŮ <span>★</span> ŽÁDNÝ JUKEBOX <span>★</span> PLNÁ TECHNIKA V CENĚ&nbsp;
+    </div>
+  </div>
+
+  <!-- ============================= PROOF BAR ============================= -->
+  <section class="section">
+    <div class="wrap" style="padding:0;">
+      <div class="proof">
+        <div class="proof__item"><div class="proof__n">12</div><div class="proof__l">let na pódiu</div></div>
+        <div class="proof__item"><div class="proof__n">40</div><div class="proof__l">písní v setlistu</div></div>
+        <div class="proof__item"><div class="proof__n">25</div><div class="proof__l">vlastních písní</div></div>
+        <div class="proof__item"><div class="proof__n">CZ</div><div class="proof__l">plátce DPH · smlouva</div></div>
+        <div class="proof__item"><div class="proof__n">24h</div><div class="proof__l">odpovíme na poptávku</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= DEMO VIDEO ============================= -->
+  <section class="section section-pad" id="demo">
+    <div class="wrap split split--media">
+      <div>
+        <p class="eyebrow">01 · Demo</p>
+        <h2 class="h2" style="margin-top:14px;">Tři minuty z letní noci pro 1500 lidí<span class="dot">.</span></h2>
+        <p class="lead" style="margin-top:18px;color:var(--ink-muted);">Když chce starostka vědět, jestli to utáhneme, posíláme tohle. Bez nejistot.</p>
+      </div>
+      <!-- Video facade: iframe (youtube-nocookie) se vloží až po kliknutí.
+           Bez videoId (P2) není play tlačítko — žádný mrtvý odkaz. -->
+      <div class="media" id="videoFacade">
+        <div class="stage" data-stage data-label=""></div>
+        <div class="media__scrim"></div>
+        <button class="media__play js-video-cta" type="button" hidden aria-label="Přehrát demo video (YouTube)"><span class="btn">▶ Hrát video · 02:48</span></button>
+        <div class="media__caption">Berounský jarmark · srpen 2025 · 1500+ lidí</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= REPERTOÁR ============================= -->
+  <section class="section section-pad panel-bg" id="repertoar">
+    <div class="wrap">
+      <div class="rep-head">
+        <div>
+          <p class="eyebrow">02 · Repertoár</p>
+          <h2 class="h2" style="margin-top:14px;">25 vlastních. 15 hitů. Žádný jukebox<span class="dot">.</span></h2>
+        </div>
+        <p class="rep-head__note">Nemyslete si, že napíšete setlist 150 písní. Není to nutné. Lidi tančí, když je hraní dobré, ne když znají každou píseň.</p>
+      </div>
+      <div class="rep-grid">
+        <div>
+          <div class="rep-col__head">
+            <span class="rep-col__label rep-col__label--accent">Vlastní · 25</span>
+            <span class="rep-col__meta js-streaming"><!-- P6: streaming odkazy doplní js/main.js --></span>
+          </div>
+          <div class="songs songs--own">
+            <div class="song"><span>Montážník</span><span>01</span></div>
+            <div class="song"><span>Andělé</span><span>02</span></div>
+            <div class="song"><span>Jako prašivej pes</span><span>03</span></div>
+            <div class="song"><span>Praha 4:23</span><span>04</span></div>
+            <div class="song"><span>Pondělní ráno</span><span>05</span></div>
+            <div class="song"><span>Vlak do Bohnic</span><span>06</span></div>
+            <div class="song"><span>Náměstí</span><span>07</span></div>
+            <div class="song"><span>Sirény</span><span>08</span></div>
+            <div class="song"><span>Ze srdce ven</span><span>09</span></div>
+            <div class="song"><span>Tichá poštička</span><span>10</span></div>
+            <div class="song"><span>Letní noc</span><span>11</span></div>
+            <div class="song"><span>Bez kabátu</span><span>12</span></div>
+            <div class="song"><span>Tady jsme byli</span><span>13</span></div>
+            <div class="song"><span>Drsně a hlasitě</span><span>14</span></div>
+            <div class="song"><span>Křišťál</span><span>15</span></div>
+            <div class="song"><span>Linka 22</span><span>16</span></div>
+            <div class="song"><span>Severní vítr</span><span>17</span></div>
+            <div class="song"><span>O víkendu</span><span>18</span></div>
+            <div class="song"><span>Co jsme tu zanechali</span><span>19</span></div>
+            <div class="song"><span>Tikot</span><span>20</span></div>
+            <div class="song"><span>Pivovar</span><span>21</span></div>
+            <div class="song"><span>Forever (open)</span><span>22</span></div>
+            <div class="song"><span>Krev a pot</span><span>23</span></div>
+            <div class="song"><span>Stačí to</span><span>24</span></div>
+            <div class="song"><span>Domů</span><span>25</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="rep-col__head">
+            <span class="rep-col__label">Hity · 15</span>
+            <span class="serif" style="font-size:13px;color:var(--ink-muted);">které všichni znají</span>
+          </div>
+          <div class="songs">
+            <div class="song"><span>Olympic — Dávno</span><span>01</span></div>
+            <div class="song"><span>Wanastowi Vjecy — Pýcha</span><span>02</span></div>
+            <div class="song"><span>Lucie — Medvídek</span><span>03</span></div>
+            <div class="song"><span>Kabát — Pohoda</span><span>04</span></div>
+            <div class="song"><span>Mig 21 — Snadné je žít</span><span>05</span></div>
+            <div class="song"><span>Wohnout — Pedro se vrací</span><span>06</span></div>
+            <div class="song"><span>Buty — Sběratel ulit</span><span>07</span></div>
+            <div class="song"><span>Chinaski — 1970</span><span>08</span></div>
+            <div class="song"><span>No Name — Pretekáš</span><span>09</span></div>
+            <div class="song"><span>Kryštof — Inzerát</span><span>10</span></div>
+            <div class="song"><span>Tata Bojs — Náušnice</span><span>11</span></div>
+            <div class="song"><span>Divokej Bill — Malování</span><span>12</span></div>
+            <!-- P8: ověřit proti reálnému setlistu — „Voda živá" je zde 2× (Žlutý pes i Langerová), vypadá jako chyba v datech -->
+            <div class="song"><span>Žlutý pes — Voda živá</span><span>13</span></div>
+            <div class="song"><span>Aneta Langerová — Voda živá</span><span>14</span></div>
+            <div class="song"><span>UB40 — Red Red Wine</span><span>15</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= REFERENCE ============================= -->
+  <section class="section section-pad" id="reference">
+    <div class="wrap">
+      <p class="eyebrow">03 · Reference</p>
+      <div class="ref-head">
+        <h2 class="h2">Kde jsme hráli<span class="dot">.</span></h2>
+        <p class="ref-head__meta">8 měst v Čechách<br>3 z nich opakovaně 2× a víc</p>
+      </div>
+      <!-- P3: ke gridu měst přijdou 2–3 fotky z akcí. Místo pro budoucí
+           firemní referenci (Lukáš) připraveno — zatím nezobrazovat. -->
+      <div class="cities">
+        <div class="city city--first"><div class="city__tag">Město · 01</div><div><div class="city__name">Beroun</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 02</div><div><div class="city__name">Příbram</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 03</div><div><div class="city__name">Kladno</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 04</div><div><div class="city__name">Mělník</div><div class="city__when">2025</div></div></div>
+        <div class="city"><div class="city__tag">Město · 05</div><div><div class="city__name">Brandýs n. L.</div><div class="city__when">2025</div></div></div>
+        <div class="city"><div class="city__tag">Město · 06</div><div><div class="city__name">Kutná Hora</div><div class="city__when">2025</div></div></div>
+        <div class="city"><div class="city__tag">Město · 07</div><div><div class="city__name">Nymburk</div><div class="city__when">2025</div></div></div>
+        <div class="city"><div class="city__tag">Město · 08</div><div><div class="city__name">Mladá Boleslav</div><div class="city__when">2025</div></div></div>
+      </div>
+      <div class="quotes">
+        <figure class="quote" style="margin:0;">
+          <blockquote class="quote__text" style="margin:0;">„Hned mě požádali, ať je domluvím i na příští rok. Na jarmark to bylo přesně to, co náměstí potřebovalo."</blockquote>
+          <figcaption class="quote__who">Žaneta V. · referentka kultury · Beroun</figcaption>
+        </figure>
+        <figure class="quote" style="margin:0;">
+          <blockquote class="quote__text" style="margin:0;">„Rozjeli dělníky i manažery stejně dobře. Vlastní české písně jsou výhoda — nejsme zvyklí na 'další cover band'."</blockquote>
+          <figcaption class="quote__who">Lukáš Č. · HR Manager · výrobní firma · 800 lidí</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= KDE HRAJEME LETOS (P7) ============================= -->
+  <section class="section section-pad gigs" id="hrajeme" hidden>
+    <div class="wrap">
+      <h2 class="gigs__h">Kde hrajeme letos<span class="dot">.</span></h2>
+      <div class="gigs__grid">
+        <div class="gigs__list js-concerts"><!-- naplní js/main.js z window.TAM.concerts --></div>
+        <div class="gigs__follow">
+          <div class="gigs__label">Posloucháte nás:</div>
+          <div class="gigs__socials js-socials"><!-- naplní js/main.js z window.TAM.socials --></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CO DOSTANETE ============================= -->
+  <section class="section section-pad">
+    <div class="wrap split split--list">
+      <div>
+        <p class="eyebrow">04 · Co dostanete</p>
+        <h2 class="h2" style="margin-top:14px;">Žádné překvapení<span class="dot">.</span></h2>
+        <p class="lead" style="margin-top:18px;color:var(--ink-muted);">Pevná cena. Plná technika. Smlouva, faktura. Žaneta to chce mít rychle ke schválení právníkem města.</p>
+        <!-- P9: až bude rider PDF v assets/tam-forever-rider.pdf, odstranit atribut hidden -->
+        <a class="btn btn--ghost rider-btn" href="../assets/tam-forever-rider.pdf" download hidden>Stáhnout technický rider (PDF) ↓</a>
+      </div>
+      <div>
+        <div class="numlist__item"><span class="numlist__n">01</span><span class="numlist__t">Plná technika v ceně — PA, světla, soundcheck</span></div>
+        <div class="numlist__item"><span class="numlist__n">02</span><span class="numlist__t">3–4 hodiny živé hudby v setlistu</span></div>
+        <div class="numlist__item"><span class="numlist__n">03</span><span class="numlist__t">Vlastní česká tvorba (25 písní) + české hity (15)</span></div>
+        <div class="numlist__item"><span class="numlist__n">04</span><span class="numlist__t">Doprava do 100 km zdarma, dál 40 Kč/km</span></div>
+        <div class="numlist__item"><span class="numlist__n">05</span><span class="numlist__t">Smlouva, faktura, DPH, GDPR</span></div>
+        <div class="numlist__item"><span class="numlist__n">06</span><span class="numlist__t">Odpovídáme do 24 hodin · záloha 30 % při potvrzení</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= KONTAKT / POPTÁVKA ============================= -->
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <div class="contact__grid">
+        <div>
+          <p class="eyebrow">Poptávka · odpovídáme do 24 hodin</p>
+          <h2 class="contact__title">Pět polí, hotovo<span class="dot">.</span></h2>
+
+          <!-- Netlify Forms → notifikace do Make → HubSpot (P12).
+               Fallback bez Netlify: změnit action na Make webhook URL a odstranit data-netlify. -->
+          <form class="form" name="poptavka" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="dekujeme.html">
+            <input type="hidden" name="form-name" value="poptavka" />
+            <input type="hidden" name="zdroj" value="web" />
+            <p class="hp" aria-hidden="true"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+            <div class="field"><label for="jmeno">Jméno</label><input id="jmeno" name="jmeno" type="text" autocomplete="name" required /></div>
+            <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+            <div class="field"><label for="telefon">Telefon</label><input id="telefon" name="telefon" type="tel" autocomplete="tel" /></div>
+            <div class="field"><label for="datum">Datum akce</label><input id="datum" name="datum" type="date" /></div>
+            <div class="field field--full"><label for="typ">Typ akce</label>
+              <select id="typ" name="typ">
+                <option value="">— vyberte —</option>
+                <option>Město / slavnost</option>
+                <option>Firemní akce</option>
+                <option>Svatba / výročí</option>
+                <option>Jiné</option>
+              </select>
+            </div>
+            <div class="field field--full"><label for="zprava">Poznámka</label><textarea id="zprava" name="zprava" rows="3" placeholder="Místo, čas, počet hostů…"></textarea></div>
+
+            <div class="form__actions">
+              <button class="btn" type="submit">Odeslat poptávku →</button>
+              <span class="form__note">nebo <a href="mailto:producent@tamforever.cz" style="color:var(--accent);">producent@tamforever.cz</a><span class="js-phone-inline"></span></span>
+            </div>
+            <p class="form__gdpr">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky. <a href="ochrana-osobnich-udaju.html">→ Zásady zpracování</a></p>
+          </form>
+        </div>
+
+        <!-- P1: volné soboty z kalendáře kapely — skryté, dokud nejsou reálná data
+             (lepší nic než špatná data). Naplní js/main.js z window.TAM.dates. -->
+        <div class="dates js-dates" hidden>
+          <div class="dates__head">Volné termíny — léto 2027</div>
+          <div class="js-dates-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= PIŠTE. ============================= -->
+  <section class="cta-write">
+    <div class="wrap">
+      <h2 class="cta-write__big">PIŠTE<span class="dot">.</span></h2>
+      <div class="cta-write__row">
+        <p class="cta-write__sub">Pošlete poptávku přes formulář, mail nebo zavolejte. Odpovídáme do 24 hodin. Smlouva, DPH, faktura.</p>
+        <div class="cta-write__contacts">
+          <a class="cta-write__mail" href="mailto:producent@tamforever.cz">producent@tamforever.cz</a>
+          <a class="cta-write__tel js-phone-link" hidden></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================= PATIČKA ============================= -->
+<footer class="footer-outer">
+    <div class="wrap footer">
+      <span>TAM forever · Praha · plátce DPH<span class="js-billing"></span></span>
+      <span>tamforever.cz · <a href="mailto:producent@tamforever.cz">producent@tamforever.cz</a><span class="js-phone-inline"></span></span>
+      <span class="footer__links js-footer-socials"></span>
+      <span><a href="ochrana-osobnich-udaju.html">Ochrana osobních údajů</a> · © 2026</span>
+    </div>
+  </footer>
+
+<!-- Sticky CTA lišta (mobil) — objeví se po odscrollování hero, skryje u formuláře -->
+<div class="sticky-cta" id="stickyCta" hidden>
+  <a class="btn" href="#kontakt">Poslat poptávku →</a>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
