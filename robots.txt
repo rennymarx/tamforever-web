@@ -1,6 +1,5 @@
-# Titulní "Coming soon" je veřejná. Vývojové varianty /gold a /green jsou skryté.
+# /dekujeme se neindexuje přes meta noindex (Disallow by Googlebotu bránil noindex přečíst)
 User-agent: *
-Disallow: /gold/
-Disallow: /green/
+Allow: /
 
 Sitemap: https://tamforever.cz/sitemap.xml

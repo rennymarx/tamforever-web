@@ -48,6 +48,8 @@ img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 ul { margin: 0; padding: 0; list-style: none; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ---------- Layout primitives ---------- */
 .wrap { max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad-x); padding-right: var(--pad-x); }
@@ -56,7 +58,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .panel-bg { background: var(--panel); }
 
 /* Odsazení kotev pod sticky navigaci (jinak je horní část sekce oříznutá) */
-#top, #pro-poradatele, #repertoar, #reference, #kontakt { scroll-margin-top: 88px; }
+#top, #pro-poradatele, #repertoar, #reference, #kontakt, #demo, #hrajeme { scroll-margin-top: 88px; }
 
 /* ---------- Typography helpers ---------- */
 .eyebrow {
@@ -105,11 +107,6 @@ h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 700; lett
   gap: 18px; padding-top: 16px; padding-bottom: 16px;
 }
 .nav__logo img { height: 48px; width: auto; }
-/* Domovská stránka: velké logo v hero; logo v liště se objeví až po odscrollování
-   (aby nebyla 2 loga zároveň). Netýká se landing breadcrumbu ani děkovací stránky. */
-.hero__logo { display: block; height: clamp(80px, 11vw, 132px); width: auto; margin-bottom: clamp(14px, 2.4vw, 22px); filter: drop-shadow(0 6px 30px rgba(0,0,0,0.45)); }
-body.home .nav__inner .nav__logo { opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; }
-body.home.nav-scrolled .nav__inner .nav__logo { opacity: 1; visibility: visible; }
 .nav__links {
   display: flex; gap: clamp(16px, 2.4vw, 28px);
   font: 500 12px/1 var(--font-mono);
@@ -158,18 +155,23 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
    HERO
    ============================================================ */
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--rule); }
+.hero__bg { position: absolute; inset: 0; }
+/* P3: fotka davu — object-fit cover, nahradí ilustraci pódia */
+.hero__photo { width: 100%; height: 100%; object-fit: cover; }
+/* Overlay dle spec 3.1 — kontrast textu na podkladu ≥ 4,5:1 */
 .hero__overlay {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(15,18,38,0.6) 0%, transparent 25%, transparent 55%, var(--bg) 100%);
+  background: linear-gradient(rgba(15,18,38,.88), rgba(15,18,38,.62));
 }
-.hero__content { position: relative; padding-top: clamp(40px, 7vw, 64px); padding-bottom: clamp(28px, 4vw, 36px); }
+.hero__content { position: relative; padding-top: clamp(36px, 6vw, 60px); padding-bottom: clamp(24px, 4vw, 36px); }
 .hero__headline {
   font-family: var(--font-display); font-weight: 700;
-  font-size: var(--fs-hero); line-height: 0.86; letter-spacing: -0.04em;
-  margin: 18px 0 0; white-space: pre-line;
+  font-size: clamp(2.5rem, 9.5vw, 6.5rem); line-height: 0.9; letter-spacing: -0.03em;
+  margin: 16px 0 0; white-space: pre-line;
   text-shadow: 0 4px 40px rgba(0,0,0,0.45);
 }
-.hero__sub { max-width: 680px; margin-top: 22px; font-size: clamp(1.05rem, 2vw, 1.375rem); }
+.hero__sub { max-width: 680px; margin-top: 20px; font-size: clamp(1rem, 1.9vw, 1.3rem); }
+.hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: clamp(20px, 3.4vw, 30px); }
 
 /* Persona cards under hero */
 .personas { position: relative; padding-bottom: clamp(28px, 4vw, 36px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -211,8 +213,11 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
 }
 .media__scrim { position: absolute; inset: 0; background: rgba(15,18,38,0.35); }
 .media__play {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
 }
+.media iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .media__caption {
   position: absolute; left: 14px; bottom: 12px;
   font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase;
@@ -258,13 +263,8 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
 /* ============================================================
    CONTACT
    ============================================================ */
-.contact { position: relative; overflow: hidden; padding-top: clamp(56px, 9vw, 90px); padding-bottom: 30px; }
-.contact__watermark {
-  position: absolute; top: 28px; left: 0; right: 0; white-space: nowrap; pointer-events: none;
-  font: 700 clamp(80px, 18vw, 200px)/0.85 var(--font-display); letter-spacing: -0.04em;
-  color: var(--bg-soft);
-}
-.contact__grid { position: relative; display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px, 5vw, 60px); padding-top: clamp(80px, 14vw, 160px); }
+.contact { position: relative; overflow: hidden; padding-top: clamp(56px, 9vw, 90px); padding-bottom: clamp(48px, 8vw, 70px); border-bottom: 1px solid var(--rule); }
+.contact__grid { position: relative; display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px, 5vw, 60px); }
 .contact__title { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 0.88; margin-top: 14px; }
 
 .form { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
@@ -279,11 +279,15 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
 }
 .field textarea { resize: vertical; min-height: 56px; }
 .field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--accent); }
-.field input::placeholder, .field textarea::placeholder { color: var(--ink-muted); opacity: 0.6; }
+.field input::placeholder, .field textarea::placeholder { color: var(--ink-muted); opacity: 1; }
 .field select { -webkit-appearance: none; appearance: none; }
 .field select option { background: var(--bg); color: var(--ink); }
 .form__actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 8px; }
 .form__note { font: 500 13px/1.5 var(--font-body); color: var(--ink-muted); }
+.form__gdpr { grid-column: 1 / -1; margin: 6px 0 0; font: 400 12px/1.5 var(--font-body); color: var(--ink-muted); }
+.form__gdpr a { color: var(--accent); }
+/* Inline odkazy v textu: nejen barvou (WCAG 1.4.1) */
+.form__gdpr a, .form__note a, .lead a, .thanks a { text-decoration: underline; text-underline-offset: 2px; }
 .hp { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
 
 .dates__head { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
@@ -293,17 +297,66 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
 /* ============================================================
    FOOTER
    ============================================================ */
+.footer-outer { border-top: 1px solid var(--rule); }
 .footer { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
-  padding: 18px 0; margin-top: clamp(40px, 7vw, 60px); border-top: 1px solid var(--rule);
-  font: 500 10px/1.5 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); }
+  padding: 22px 0;
+  font: 500 10px/1.6 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); }
+.footer a { transition: color .15s; }
+.footer a:hover { color: var(--accent); }
+.footer__links a { margin-right: 12px; }
 
 /* ============================================================
-   MARQUEE (landing/extra)
+   MARQUEE benefitů — zlatý pás, tmavý text (kombinace 8,2:1)
    ============================================================ */
-.marquee { overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--panel); padding: 14px 0; }
-.marquee__track { display: inline-block; white-space: nowrap; font: 700 clamp(16px, 2.4vw, 24px)/1 var(--font-display); letter-spacing: 0.02em; text-transform: uppercase; will-change: transform; animation: marquee 28s linear infinite; }
-.marquee__track span { color: var(--accent); margin: 0 14px; }
+.marquee { overflow: hidden; background: var(--accent); color: var(--accent-ink); padding: 13px 0; border-bottom: 1px solid var(--rule); }
+.marquee__track { display: inline-block; white-space: nowrap; font: 700 clamp(15px, 2.2vw, 22px)/1 var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; will-change: transform; animation: marquee 28s linear infinite; }
+.marquee__track span { margin: 0 14px; opacity: 0.75; }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ============================================================
+   KDE HRAJEME LETOS (P7)
+   ============================================================ */
+.gigs__h { font-size: clamp(1.5rem, 3.4vw, 2.1rem); letter-spacing: -0.02em; }
+.gigs__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(28px, 5vw, 50px); margin-top: 24px; align-items: start; }
+.gig-row { display: grid; grid-template-columns: 110px 1fr; gap: 14px; padding: 13px 0; border-top: 1px solid var(--rule); font: 500 14px/1.4 var(--font-body); }
+.gig-row__date { font: 600 13px/1.4 var(--font-mono); color: var(--accent); white-space: nowrap; }
+.gig-row__what b { font-weight: 600; }
+.gig-row__what span { color: var(--ink-muted); }
+.gigs__label { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+.gigs__socials { display: flex; flex-wrap: wrap; gap: 10px; }
+.gigs__socials a, .footer__links a {
+  font: 600 11px/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink); transition: color .15s;
+}
+.gigs__socials a { padding: 10px 14px; border: 1px solid var(--rule); }
+.gigs__socials a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ============================================================
+   PIŠTE. blok
+   ============================================================ */
+.cta-write { background: var(--panel); border-bottom: 1px solid var(--rule); padding-top: clamp(36px, 6vw, 56px); padding-bottom: clamp(36px, 6vw, 56px); }
+.cta-write__big { font: 700 clamp(4rem, 15vw, 10rem)/0.85 var(--font-display); letter-spacing: -0.04em; }
+.cta-write__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
+.cta-write__sub { margin: 0; font: 500 14px/1.5 var(--font-body); color: var(--ink-muted); max-width: 520px; }
+.cta-write__contacts { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.cta-write__mail, .cta-write__tel { font: 700 clamp(1.2rem, 3vw, 1.8rem)/1.1 var(--font-display); color: var(--accent); transition: color .15s; }
+.cta-write__mail:hover, .cta-write__tel:hover { color: var(--accent-soft); }
+
+/* ============================================================
+   STICKY CTA (mobil) — nález č. 20
+   ============================================================ */
+.sticky-cta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  padding: 10px var(--pad-x) calc(10px + env(safe-area-inset-bottom));
+  background: rgba(15, 18, 38, 0.94); border-top: 1px solid var(--rule);
+  transform: translateY(100%); transition: transform .25s ease;
+}
+.sticky-cta.is-visible { transform: translateY(0); }
+.sticky-cta .btn { width: 100%; justify-content: center; }
+@media (min-width: 681px) { .sticky-cta { display: none !important; } }
+
+/* Rider tlačítko (P9) */
+.rider-btn { margin-top: 26px; }
 
 /* ============================================================
    LANDING-page specific
@@ -394,9 +447,10 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
     position: fixed; inset: 0; top: 0; z-index: 60;
     flex-direction: column; align-items: center; justify-content: center; gap: 28px;
     background: var(--bg); font-size: 16px;
-    transform: translateX(100%); transition: transform .28s ease;
+    transform: translateX(100%); visibility: hidden;
+    transition: transform .28s ease, visibility .28s;
   }
-  body.nav-open .nav__links { transform: translateX(0); }
+  body.nav-open .nav__links { transform: translateX(0); visibility: visible; }
   body.nav-open { overflow: hidden; }
   .nav__cta { display: none; }
   .nav__burger { display: inline-flex; z-index: 70; }
@@ -410,6 +464,10 @@ body.nav-open .nav__burger span::after { transform: translateY(-7px) rotate(-45d
   .form { grid-template-columns: 1fr; }
   .footer { flex-direction: column; gap: 8px; }
   .lhero__aside { display: none; }
+  /* Dvě CTA vedle sebe i na mobilu (spec 3.1) */
+  .hero__cta .btn { flex: 1; justify-content: center; padding: 14px 12px; font-size: 11px; letter-spacing: 0.12em; white-space: nowrap; }
+  .gigs__grid { grid-template-columns: 1fr; }
+  .cta-write__contacts { align-items: flex-start; }
 }
 
 @media (max-width: 420px) {

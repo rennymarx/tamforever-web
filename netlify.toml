@@ -3,33 +3,58 @@
   publish = "."
   command = ""
 
-# Hezké URL bez .html — vývojové varianty /gold a /green
+# ---------- Drafty /gold a /green → 301 na ostrou homepage (spec §4) ----------
 [[redirects]]
-  from = "/gold/pro-mesta"
-  to = "/gold/pro-mesta.html"
+  from = "/gold/*"
+  to = "/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/green/*"
+  to = "/"
+  status = 301
+  force = true
+
+# ---------- Interní dokumenty repa nepatří na produkci (DoD 1) ----------
+[[redirects]]
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/OBSAH.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# ---------- Hezké URL bez .html ----------
+[[redirects]]
+  from = "/pro-mesta"
+  to = "/pro-mesta.html"
   status = 200
 [[redirects]]
-  from = "/gold/pro-firmy"
-  to = "/gold/pro-firmy.html"
+  from = "/pro-firmy"
+  to = "/pro-firmy.html"
   status = 200
 [[redirects]]
-  from = "/gold/pro-svatby"
-  to = "/gold/pro-svatby.html"
+  from = "/pro-svatby"
+  to = "/pro-svatby.html"
   status = 200
 [[redirects]]
-  from = "/green/pro-mesta"
-  to = "/green/pro-mesta.html"
+  from = "/dekujeme"
+  to = "/dekujeme.html"
   status = 200
 [[redirects]]
-  from = "/green/pro-firmy"
-  to = "/green/pro-firmy.html"
-  status = 200
-[[redirects]]
-  from = "/green/pro-svatby"
-  to = "/green/pro-svatby.html"
+  from = "/ochrana-osobnich-udaju"
+  to = "/ochrana-osobnich-udaju.html"
   status = 200
 
-# Bezpečnostní hlavičky (všude)
+# ---------- Bezpečnostní hlavičky (všude) ----------
 [[headers]]
   for = "/*"
   [headers.values]
@@ -37,18 +62,18 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Loga — dlouhá cache (nemění se)
+# ---------- Cache ----------
+# Assety (loga, og-image, favicony) — dlouhá cache
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Varianty — vždy ověřit čerstvost, aby se úpravy projevily hned
+# CSS/JS — vždy ověřit čerstvost, úpravy se projeví hned
 [[headers]]
-  for = "/gold/*"
+  for = "/css/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 [[headers]]
-  for = "/green/*"
+  for = "/js/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
