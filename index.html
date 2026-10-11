@@ -3,183 +3,302 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TAM forever — Coming soon</title>
-<meta name="description" content="TAM forever — hlasitá pop-rocková kapela z Prahy. Nový web se brzy spustí." />
-<meta property="og:title" content="TAM forever — Coming soon" />
-<meta property="og:description" content="Něco se tu vaří. A brzy to pořádně bouchne." />
-<meta property="og:image" content="https://tamforever.cz/assets/logo-foil.png" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0d'/><text x='16' y='23' font-size='22' text-anchor='middle' fill='%23e3a13a' font-family='Georgia,serif'>%E2%88%9E</text></svg>" />
+<title>TAM forever — pražská pop-rocková legenda</title>
+<meta name="description" content="TAM forever — pražská pop-rocková legenda s vlastní českou tvorbou. 25 vlastních písní, 10 českých hitů. Pro městské slavnosti, firemní dny a rockové svatby. Plná technika v ceně." />
+<link rel="canonical" href="https://tamforever.cz/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="TAM forever — pražská pop-rocková legenda" />
+<meta property="og:description" content="25 vlastních písní, 10 českých hitů. Kapela jako hlavní událost večera — ne hraní v pozadí." />
+<meta property="og:locale" content="cs_CZ" />
+<meta property="og:url" content="https://tamforever.cz/" />
+<meta property="og:image" content="https://tamforever.cz/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- Favicon: ∞ in sunset amber on midnight -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230f1226'/><text x='16' y='23' font-size='22' text-anchor='middle' fill='%23e3a13a' font-family='Georgia,serif'>%E2%88%9E</text></svg>" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
-  body {
-    background: #0a0a0d;
-    color: #f4ecd7;
-    font-family: "IBM Plex Mono", monospace;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  .cs {
-    position: relative; min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: clamp(12px, 2vh, 22px); padding: 32px 24px; text-align: center;
-  }
-  /* žhnoucí glow zespodu */
-  .ember-bg {
-    position: absolute; left: 50%; bottom: -6%; transform: translateX(-50%);
-    width: min(820px, 120vw); height: 60vh;
-    background: radial-gradient(ellipse at center bottom, rgba(227,161,58,0.18), rgba(227,161,58,0.05) 45%, transparent 70%);
-    filter: blur(24px); pointer-events: none; z-index: 0;
-  }
-  .cs > *:not(.ember-bg):not(.est) { position: relative; z-index: 1; }
-
-  .logo {
-    height: clamp(160px, 40vh, 360px); width: auto; max-width: 88vw; display: block;
-    filter: drop-shadow(0 10px 50px rgba(227,161,58,0.22));
-  }
-  .soon {
-    margin: 0;
-    font-family: "Antonio", sans-serif; font-weight: 700;
-    font-size: clamp(1.9rem, 5.2vw, 3.4rem); line-height: 0.9; letter-spacing: 0.01em;
-    text-transform: uppercase; color: #f4ecd7;
-  }
-  .soon .dot { color: #e3a13a; }
-
-  /* ---------- ROCKOVÝ KOTEL NA ŽHNOUCÍ PLOTÝNCE (sopka před výbuchem) ---------- */
-  .pot { position: relative; width: clamp(160px, 24vh, 250px); aspect-ratio: 220 / 205; }
-  .pot-svg { width: 100%; height: 100%; display: block; }
-
-  /* poklička se pod tlakem nadzvedává a rachotí */
-  .lid { transform-box: fill-box; transform-origin: center bottom; animation: rattle 0.45s ease-in-out infinite; }
-  @keyframes rattle {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-2.5px) rotate(-3deg); }
-    50% { transform: translateY(-1px) rotate(0deg); }
-    75% { transform: translateY(-2.5px) rotate(3deg); }
-  }
-  /* žhnoucí plotýnka — žár + spirály */
-  .embers { transform-box: fill-box; transform-origin: center; animation: pulse 1.4s ease-in-out infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 0.6; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.12); } }
-  .plotna { animation: flick 0.9s ease-in-out infinite; }
-  @keyframes flick { 0%, 100% { opacity: 0.85; } 35% { opacity: 1; } 70% { opacity: 0.6; } }
-
-  /* pára (hustá) */
-  .steam {
-    position: absolute; border-radius: 50%; opacity: 0; will-change: transform, opacity;
-    background: radial-gradient(ellipse at center, rgba(244,236,215,0.8), rgba(244,236,215,0) 70%);
-    filter: blur(5px);
-  }
-  .s1, .s2, .s3, .s4, .s5 { width: 16%; height: 34%; bottom: 52%; animation: plume 2.4s ease-in infinite; }
-  .s1 { left: 33%; animation-delay: 0s; }
-  .s2 { left: 43%; animation-delay: 0.5s; }
-  .s3 { left: 53%; animation-delay: 1s; }
-  .s4 { left: 62%; animation-delay: 1.5s; }
-  .s5 { left: 47%; animation-delay: 2s; }
-  @keyframes plume {
-    0% { transform: translateY(0) scale(0.5); opacity: 0; }
-    25% { opacity: 0.85; }
-    60% { opacity: 0.5; }
-    100% { transform: translateY(-180%) scale(1.7); opacity: 0; }
-  }
-  /* boční trysky páry zpod pokličky */
-  .jet-l, .jet-r { width: 12%; height: 24%; bottom: 49%; animation: jet 2s ease-out infinite; }
-  .jet-l { left: 21%; --jx: -55%; }
-  .jet-r { right: 21%; --jx: 55%; animation-delay: 1s; }
-  @keyframes jet {
-    0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
-    30% { opacity: 0.7; }
-    100% { transform: translate(var(--jx), -130%) scale(1.3); opacity: 0; }
-  }
-  /* jiskry z plotýnky */
-  .spark { position: absolute; bottom: 7%; width: 4px; height: 4px; border-radius: 50%;
-    background: #ffd27a; box-shadow: 0 0 7px 1px rgba(255,170,70,0.95); opacity: 0; will-change: transform, opacity; }
-  .k1 { left: 30%; --sx: -2vw; animation: spark 1.5s ease-out infinite; }
-  .k2 { left: 42%; --sx: 1.6vw; animation: spark 1.7s ease-out infinite; animation-delay: 0.4s; }
-  .k3 { left: 54%; --sx: -1vw; animation: spark 1.3s ease-out infinite; animation-delay: 0.8s; }
-  .k4 { left: 64%; --sx: 2.6vw; animation: spark 1.8s ease-out infinite; animation-delay: 1.1s; }
-  .k5 { left: 48%; --sx: -2.6vw; animation: spark 1.45s ease-out infinite; animation-delay: 1.5s; }
-  @keyframes spark {
-    0% { transform: translate(0, 0) scale(1); opacity: 0; }
-    12% { opacity: 1; }
-    100% { transform: translate(var(--sx), -19vh) scale(0.2); opacity: 0; }
-  }
-  /* prskání zpod pokličky */
-  .spit { position: absolute; bottom: 50%; width: 5px; height: 5px; border-radius: 50%;
-    background: #ffba50; box-shadow: 0 0 5px rgba(255,140,50,0.85); opacity: 0; will-change: transform, opacity; }
-  .p1 { left: 30%; --px: -3vw; animation: spit 1.6s ease-out infinite; animation-delay: 0.3s; }
-  .p2 { right: 30%; --px: 3vw; animation: spit 1.9s ease-out infinite; animation-delay: 1.1s; }
-  .p3 { left: 50%; --px: 0.6vw; animation: spit 1.35s ease-out infinite; animation-delay: 0.7s; }
-  @keyframes spit {
-    0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-    25% { opacity: 1; transform: translate(calc(var(--px) * 0.6), -3.5vh) scale(1); }
-    100% { transform: translate(var(--px), 1.5vh) scale(0.3); opacity: 0; }
-  }
-
-  .wink {
-    margin: 0; max-width: 420px;
-    font-size: clamp(0.82rem, 2.2vw, 0.95rem); line-height: 1.6; letter-spacing: 0.08em;
-    text-transform: uppercase; color: rgba(244,236,215,0.62);
-  }
-  .wink b { color: #e3a13a; font-weight: 500; }
-
-  /* Pozn.: animace kotle běží i při systémovém "omezeném pohybu" (Windows: Efekty animací
-     vypnuté → jinak by byla titulka na takovém PC statická). Je to vědomé rozhodnutí —
-     pohyb je tu součást brandu, ne jen dekorace. */
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
-  <main class="cs">
-    <div class="ember-bg" aria-hidden="true"></div>
+<body id="top" class="home">
 
-    <img class="logo" src="assets/logo-foil.png" alt="TAM forever" />
+<!-- ============================= NAV ============================= -->
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__logo" href="index.html" aria-label="TAM forever — domů">
+      <img src="assets/logo-foil.png" alt="TAM forever" />
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Hlavní navigace">
+      <a href="#top" aria-current="page">Home</a>
+      <a href="#repertoar">Hudba</a>
+      <a href="#pro-poradatele">Pro pořadatele</a>
+      <a href="#reference">Reference</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn btn--sm nav__cta" href="#kontakt">Pošlete poptávku →</a>
+    <button class="nav__burger" id="navBurger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+  </div>
+</header>
 
-    <h1 class="soon">Coming soon<span class="dot">.</span></h1>
-
-    <div class="pot" aria-hidden="true">
-      <svg class="pot-svg" viewBox="0 0 220 205">
-        <defs>
-          <radialGradient id="ember" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ff5a1f" stop-opacity="1" />
-            <stop offset="45%" stop-color="#ff7a2f" stop-opacity="0.65" />
-            <stop offset="100%" stop-color="#ff7a2f" stop-opacity="0" />
-          </radialGradient>
-        </defs>
-        <!-- žhnoucí plotýnka pod kotlem -->
-        <ellipse class="embers" cx="110" cy="190" rx="94" ry="32" fill="url(#ember)" />
-        <ellipse cx="110" cy="194" rx="76" ry="15" fill="#0c0e1a" />
-        <g class="plotna">
-          <ellipse cx="110" cy="193" rx="60" ry="11" fill="none" stroke="#ff6a2a" stroke-width="4" />
-          <ellipse cx="110" cy="193" rx="38" ry="7" fill="none" stroke="#ff8a3d" stroke-width="3.5" />
-          <ellipse cx="110" cy="193" rx="16" ry="3.5" fill="none" stroke="#ffba50" stroke-width="3" />
-        </g>
-        <!-- tělo kotle -->
-        <path d="M38 100 C38 158 72 182 110 182 C148 182 182 158 182 100 Z" fill="#15182a" stroke="#c87035" stroke-width="3.5" />
-        <!-- ucha -->
-        <path d="M39 112 C20 112 20 140 37 144" fill="none" stroke="#c87035" stroke-width="5" stroke-linecap="round" />
-        <path d="M181 112 C200 112 200 140 183 144" fill="none" stroke="#c87035" stroke-width="5" stroke-linecap="round" />
-        <!-- okraj kotle -->
-        <ellipse cx="110" cy="100" rx="64" ry="15" fill="#1c2138" stroke="#c87035" stroke-width="3.5" />
-        <!-- poklička (nadzvednutá tlakem, rachotí) -->
-        <g class="lid">
-          <path d="M50 98 C50 70 170 70 170 98 Z" fill="#20253f" stroke="#c87035" stroke-width="3" />
-          <ellipse cx="110" cy="98" rx="60" ry="11" fill="#20253f" stroke="#c87035" stroke-width="3" />
-          <rect x="103" y="55" width="14" height="13" rx="3.5" fill="#c87035" />
-          <ellipse cx="110" cy="55" rx="7" ry="3" fill="#c87035" />
-        </g>
-      </svg>
-      <!-- pára -->
-      <span class="steam s1"></span><span class="steam s2"></span><span class="steam s3"></span><span class="steam s4"></span><span class="steam s5"></span>
-      <span class="steam jet-l"></span><span class="steam jet-r"></span>
-      <!-- jiskry z plotýnky -->
-      <span class="spark k1"></span><span class="spark k2"></span><span class="spark k3"></span><span class="spark k4"></span><span class="spark k5"></span>
-      <!-- prskání zpod pokličky -->
-      <span class="spit p1"></span><span class="spit p2"></span><span class="spit p3"></span>
+<main>
+  <!-- ============================= HERO ============================= -->
+  <section class="hero">
+    <!-- Fotka kapely jako podklad hero (místo ilustrace pódia) -->
+    <img class="hero__photo" src="assets/hero-kapela.webp"
+         srcset="assets/hero-kapela-900.webp 900w, assets/hero-kapela.webp 1673w" sizes="100vw"
+         width="1673" height="940" alt="" fetchpriority="high" />
+    <div class="hero__overlay"></div>
+    <div class="wrap hero__content">
+      <img class="hero__logo" src="assets/logo-foil.png" alt="TAM forever" />
+      <p class="eyebrow">pop-rocková legenda · Praha · est. 1979</p>
+      <h1 class="hero__headline">Pop-rocková
+kapela s vlastní
+českou tvorbou.</h1>
+      <p class="hero__sub serif">25 vlastních písní, 10 hitů. Pro městské slavnosti, firemní dny a rockové svatby — když má být kapela hlavní událostí večera, ne hraním v pozadí.</p>
     </div>
 
-    <p class="wink">Něco se tu <b>vaří</b>.<br>A brzy to pořádně <b>bouchne</b>.</p>
-  </main>
+    <!-- 3 persony jako primární navigace -->
+    <div class="wrap personas" id="pro-poradatele">
+      <a class="pcard" href="pro-mesta.html">
+        <div class="pcard__top"><span class="pcard__badge">01</span><span class="pcard__persona">pro Žanetu</span></div>
+        <h3 class="pcard__title">Pro města
+a slavnosti</h3>
+        <ul class="pcard__bullets">
+          <li>Letní noci na náměstí</li>
+          <li>Pivní slavnosti, jarmarky, vinobraní</li>
+          <li>Plná technika v ceně</li>
+        </ul>
+        <div class="pcard__foot"><span class="pcard__detail">Více →</span></div>
+      </a>
+      <a class="pcard" href="pro-firmy.html">
+        <div class="pcard__top"><span class="pcard__badge">02</span><span class="pcard__persona">pro Lukáše</span></div>
+        <h3 class="pcard__title">Pro firmy
+a rockový tým</h3>
+        <ul class="pcard__bullets">
+          <li>Firemní dny pro 200–1000 lidí</li>
+          <li>Pre-vánoční oslavy, výročí</li>
+          <li>Faktura, smlouva, GDPR</li>
+        </ul>
+        <div class="pcard__foot"><span class="pcard__detail">Více →</span></div>
+      </a>
+      <a class="pcard" href="pro-svatby.html">
+        <div class="pcard__top"><span class="pcard__badge">03</span><span class="pcard__persona">pro Magdu &amp; Petra</span></div>
+        <h3 class="pcard__title">Pro svatby
+a výročí</h3>
+        <ul class="pcard__bullets">
+          <li>Rocková svatba, ne jukebox</li>
+          <li>Formát 3–4 hodiny</li>
+          <li>Vlastní písně + české hity</li>
+        </ul>
+        <div class="pcard__foot"><span class="pcard__detail">Více →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================= PROOF BAR ============================= -->
+  <section class="section">
+    <div class="wrap" style="padding:0;">
+      <div class="proof">
+        <div class="proof__item"><div class="proof__n">47</div><div class="proof__l">let na pódiu</div></div>
+        <div class="proof__item"><div class="proof__n">35</div><div class="proof__l">písní v setlistu</div></div>
+        <div class="proof__item"><div class="proof__n">25</div><div class="proof__l">vlastních písní</div></div>
+        <div class="proof__item"><div class="proof__n">24h</div><div class="proof__l">odpovíme na poptávku</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= DEMO VIDEO ============================= -->
+  <section class="section section-pad">
+    <div class="wrap split split--media">
+      <div>
+        <p class="eyebrow">01 · Demo</p>
+        <h2 class="h2" style="margin-top:14px;">Minuta z letní akce pro město<span class="dot">.</span></h2>
+        <p class="lead" style="margin-top:18px;color:var(--ink-muted);">Když chce starostka vědět, jestli to utáhneme, posíláme tohle. Bez nejistot.</p>
+      </div>
+      <!-- Demo video: YouTube. Klik = přehrávač přímo na stránce (youtube-nocookie, bez sledovacích cookies); odkaz funguje i bez JS. -->
+      <a class="media" href="https://www.youtube.com/watch?v=UOsV9CExbEI" target="_blank" rel="noopener" data-youtube-id="UOsV9CExbEI" aria-label="Přehrát demo video">
+        <img class="media__poster" src="assets/demo-video.webp" width="1280" height="720" alt="" loading="lazy" decoding="async" />
+        <div class="media__scrim"></div>
+        <div class="media__play"><span class="btn">▶ Hrát video</span></div>
+        <div class="media__caption">Slavnost městské části Praha · září 2026 · 650+ lidí</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================= REPERTOÁR ============================= -->
+  <section class="section section-pad panel-bg" id="repertoar">
+    <div class="wrap">
+      <div class="rep-head">
+        <div>
+          <p class="eyebrow">02 · Repertoár</p>
+          <h2 class="h2" style="margin-top:14px;">25 vlastních. 10 hitů. Žádný jukebox<span class="dot">.</span></h2>
+        </div>
+        <p class="rep-head__note">Není nutné psát setlist 150 písní. Lidi tančí, když je hraní dobré, ne když znají každou píseň.</p>
+      </div>
+      <div class="rep-grid">
+        <div>
+          <div class="rep-col__head">
+            <span class="rep-col__label rep-col__label--accent">Vlastní · 25</span>
+            <span class="rep-col__meta">spotify · youtube · apple music</span>
+          </div>
+          <div class="songs songs--own">
+            <div class="song"><span>Ruleta</span><span>01</span></div>
+            <div class="song"><span>Andělé</span><span>02</span></div>
+            <div class="song"><span>Dívka ze sklepa</span><span>03</span></div>
+            <div class="song"><span>Rainbow</span><span>04</span></div>
+            <div class="song"><span>Královna nonstopu</span><span>05</span></div>
+            <div class="song"><span>Obraz lásky</span><span>06</span></div>
+            <div class="song"><span>Díky</span><span>07</span></div>
+            <div class="song"><span>Mám tě rád</span><span>08</span></div>
+            <div class="song"><span>Evropa</span><span>09</span></div>
+            <div class="song"><span>Větrák</span><span>10</span></div>
+            <div class="song"><span>Semínko</span><span>11</span></div>
+            <div class="song"><span>Sen</span><span>12</span></div>
+            <div class="song"><span>Montážník</span><span>13</span></div>
+            <div class="song"><span>Jako prašivej pes</span><span>14</span></div>
+            <div class="song"><span>Tys mě hřála</span><span>15</span></div>
+            <div class="song"><span>Manekýn</span><span>16</span></div>
+            <div class="song"><span>Splynutí</span><span>17</span></div>
+            <div class="song"><span>Pevný vnitřní řád</span><span>18</span></div>
+            <div class="song"><span>Obraz Doriana Greye</span><span>19</span></div>
+            <div class="song"><span>Kopačky</span><span>20</span></div>
+            <div class="song"><span>Šance</span><span>21</span></div>
+            <div class="song"><span>Disco žába</span><span>22</span></div>
+            <div class="song"><span>Neztrácej</span><span>23</span></div>
+            <div class="song"><span>Závislák</span><span>24</span></div>
+            <div class="song"><span>Window of the memory</span><span>25</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="rep-col__head">
+            <span class="rep-col__label">Hity · 10</span>
+            <span class="serif" style="font-size:13px;color:var(--ink-muted);">které všichni znají</span>
+          </div>
+          <div class="songs">
+            <div class="song"><span>Argema — Modrý pondělí</span><span>01</span></div>
+            <div class="song"><span>Argema — Tohle je ráj</span><span>02</span></div>
+            <div class="song"><span>Walda gang — Na jednu noc</span><span>03</span></div>
+            <div class="song"><span>Turbo — Vodopád prázdných slov</span><span>04</span></div>
+            <div class="song"><span>Turbo — Chtěl jsem mít</span><span>05</span></div>
+            <div class="song"><span>Keks — Víš</span><span>06</span></div>
+            <div class="song"><span>Deep Purple — Soldier of fortune</span><span>07</span></div>
+            <div class="song"><span>Battle Beast — Eden</span><span>08</span></div>
+            <div class="song"><span>Kabát — Malá dáma</span><span>09</span></div>
+            <div class="song"><span>… a jedno překvapení 😊</span><span>10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= REFERENCE ============================= -->
+  <section class="section section-pad" id="reference">
+    <div class="wrap">
+      <p class="eyebrow">03 · Reference</p>
+      <div class="ref-head">
+        <h2 class="h2">Kde jsme hráli<span class="dot">.</span></h2>
+        <p class="ref-head__meta">8 měst v Česku<br>6 z nich opakovaně</p>
+      </div>
+      <div class="cities">
+        <div class="city city--first"><div class="city__tag">Město · 01</div><div><div class="city__name">Praha</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 02</div><div><div class="city__name">Klatovy</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 03</div><div><div class="city__name">Kostelec nad Labem</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 04</div><div><div class="city__name">Přelouč</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 05</div><div><div class="city__name">Nová Ves</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 06</div><div><div class="city__name">Strašín</div><div class="city__when">2025</div></div></div>
+        <div class="city"><div class="city__tag">Město · 07</div><div><div class="city__name">Valtice</div><div class="city__when">opakovaně</div></div></div>
+        <div class="city"><div class="city__tag">Město · 08</div><div><div class="city__name">Svijany</div><div class="city__when">2021</div></div></div>
+      </div>
+      <div class="quotes">
+        <figure class="quote" style="margin:0;">
+          <blockquote class="quote__text" style="margin:0;">„Hned mě požádali, ať je domluvím i na příští rok. Na jarmark to bylo přesně to, co náměstí potřebovalo."</blockquote>
+          <figcaption class="quote__who">Žaneta V. · referentka kultury</figcaption>
+        </figure>
+        <figure class="quote" style="margin:0;">
+          <blockquote class="quote__text" style="margin:0;">„Rozjeli dělníky i manažery stejně dobře. Vlastní české písně jsou výhoda — nejsme zvyklí na 'další cover band'."</blockquote>
+          <figcaption class="quote__who">Lukáš Č. · HR Manager · výrobní firma · 800 lidí</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CO DOSTANETE ============================= -->
+  <section class="section section-pad">
+    <div class="wrap split split--list">
+      <div>
+        <p class="eyebrow">04 · Co dostanete</p>
+        <h2 class="h2" style="margin-top:14px;">Žádné překvapení<span class="dot">.</span></h2>
+        <p class="lead" style="margin-top:18px;color:var(--ink-muted);">Pevná cena. Plná technika. Smlouva, faktura. Žaneta to chce mít rychle ke schválení právníkem města.</p>
+      </div>
+      <div>
+        <div class="numlist__item"><span class="numlist__n">01</span><span class="numlist__t">Plná technika v ceně — PA, světla, soundcheck</span></div>
+        <div class="numlist__item"><span class="numlist__n">02</span><span class="numlist__t">3–4 hodiny živé hudby v setlistu</span></div>
+        <div class="numlist__item"><span class="numlist__n">03</span><span class="numlist__t">Vlastní česká tvorba (25 písní) + české hity (10)</span></div>
+        <div class="numlist__item"><span class="numlist__n">04</span><span class="numlist__t">Smlouva, faktura, DPH, GDPR</span></div>
+        <div class="numlist__item"><span class="numlist__n">05</span><span class="numlist__t">Odpovídáme do 24 hodin · záloha 30 % při potvrzení</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= KONTAKT / POPTÁVKA ============================= -->
+  <section class="contact" id="kontakt">
+    <div class="contact__watermark" aria-hidden="true">TAM FOREVER · TAM FOREVER · TAM</div>
+    <div class="wrap">
+      <div class="contact__grid">
+        <div>
+          <p class="eyebrow">Poptávka · odpovídáme do 24 hodin</p>
+          <h2 class="contact__title">Pět polí, hotovo<span class="dot">.</span></h2>
+
+          <!-- Netlify Forms: name + data-netlify="true" + honeypot -->
+          <form class="form" name="poptavka" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="dekujeme.html">
+            <input type="hidden" name="form-name" value="poptavka" />
+            <p class="hp"><label>Nevyplňujte: <input name="bot-field" /></label></p>
+
+            <div class="field"><label for="jmeno">Jméno</label><input id="jmeno" name="jmeno" type="text" autocomplete="name" required /></div>
+            <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+            <div class="field"><label for="telefon">Telefon</label><input id="telefon" name="telefon" type="tel" autocomplete="tel" /></div>
+            <div class="field"><label for="datum">Datum akce</label><input id="datum" name="datum" type="date" /></div>
+            <div class="field"><label for="hoste">Počet hostů</label><input id="hoste" name="hoste" type="number" min="1" inputmode="numeric" /></div>
+            <div class="field"><label for="typ">Typ akce</label>
+              <select id="typ" name="typ">
+                <option value="">— vyberte —</option>
+                <option>Město / slavnost</option>
+                <option>Firemní akce</option>
+                <option>Svatba / výročí</option>
+                <option>Jiné</option>
+              </select>
+            </div>
+            <div class="field field--full"><label for="zprava">Poznámka</label><textarea id="zprava" name="zprava" rows="3" placeholder="Místo, čas, co si představujete…"></textarea></div>
+
+            <div class="form__actions">
+              <button class="btn" type="submit">Odeslat poptávku →</button>
+              <span class="form__note">nebo <a href="mailto:producent@tamforever.cz" style="color:var(--accent);">producent@tamforever.cz</a> · +420 722 929 158</span>
+            </div>
+            <p class="form__gdpr">Odesláním souhlasíte se zpracováním údajů pro vyřízení poptávky. <a href="ochrana-osobnich-udaju.html">→ Zásady zpracování</a></p>
+          </form>
+        </div>
+
+        <!-- Volné termíny: SKRYTO 11. 10. 2026 (placeholder data). Předloha: _zaloha/2026-10-11-gold-pred-skrytim-cen/gold/index.html -->
+      </div>
+
+      <footer class="footer">
+        <span>TAM forever · Praha</span>
+        <span>tamforever.cz · producent@tamforever.cz · +420 722 929 158</span>
+        <span><a href="ochrana-osobnich-udaju.html">Ochrana osobních údajů</a> · © 2026</span>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<script src="js/main.js"></script>
 </body>
 </html>

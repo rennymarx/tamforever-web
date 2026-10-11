@@ -1,7 +1,8 @@
-# Titulní "Coming soon" je veřejná. Drafty /gold, /green a /final jsou skryté (ladění).
 User-agent: *
-Disallow: /gold/
+Allow: /
+# Záloha designu a interní složky — neindexovat
 Disallow: /green/
-Disallow: /final/
+Disallow: /_zaloha/
+Disallow: /dekujeme
 
 Sitemap: https://tamforever.cz/sitemap.xml

@@ -1,46 +1,38 @@
 # tamforever.cz
 
-Web kapely **TAM forever** — hlasitá pop-rocková kapela z Prahy.
+Web kapely **TAM forever** — pražská pop-rocková legenda.
 Statický web — **žádný build, žádné závislosti.** Čisté HTML + CSS + vanilla JS.
 
 ## Stav
 
-- **Root `/` = „Coming soon"** (veřejná titulka s kotlíkem) — jediná indexovaná stránka.
-- **Drafty k ladění** (noindex + robots Disallow):
-  - **`/final/`** — finalizovaná verze dle `FINAL_SPEC_tamforever_GOLD.md` (Box: `COWORK_Box/TAM forever/`). Kandidát na ostré spuštění.
-  - `/gold/` — původní směr A · Letní noc (před finalizací)
-  - `/green/` — směr C · Vlnoplocha (zdroj identity pro výlep/merch)
-
-## Struktura /final (kandidát na ostrou verzi)
+**Ostrý web od 11. 10. 2026 = verze Gold** (dříve draft `/gold`), nahradila stránku „Coming soon“.
 
 ```
-final/
-├─ index.html            # homepage — nahoře konfigurační blok window.TAM (podklady P1–P7)
-├─ pro-mesta|firmy|svatby.html   # landing pages person
-├─ dekujeme.html         # po odeslání formuláře (noindex)
-├─ ochrana-osobnich-udaju.html   # GDPR zásady (návrh k odsouhlasení — P10)
-├─ 404.html              # „Tady se nehraje."
-├─ css/style.css, js/main.js
+/                            titulní stránka (index.html)
+/pro-mesta | pro-firmy | pro-svatby   landing pages pro tři typy pořadatelů
+/ochrana-osobnich-udaju      zásady GDPR (NÁVRH — doplnit správce: název, IČO, sídlo)
+/dekujeme                    po odeslání formuláře (noindex)
+404.html                     „Tady se nehraje.“
+css/style.css, js/main.js    styly a skripty pro všechny stránky
+assets/                      fotky (.webp + menší varianty pro mobil), loga, og-image, favicony
+green/                       záloha designu „Vlnoplocha“ (noindex, robots Disallow)
+_zaloha/                     zálohy pro pozdější návrat (na webu blokované → 404)
 ```
-Sdílené assety v `/assets` (logo WebP 27 KB, og-image, favicony).
 
-## Aktualizace obsahu (termíny, koncerty, video, telefon…)
+## Zálohy (`_zaloha/`)
 
-**Jediné místo:** blok `window.TAM` na začátku `final/index.html`. Prázdná hodnota = prvek
-se nezobrazí (žádná výplňová data). Detailní tabulka: [OBSAH.md](OBSAH.md).
+- `2026-10-11-gold-pred-skrytim-cen/` — Gold i s **ceníkem, cenami u formátů, volnými termíny a boxem „Stáhněte“** (skryto do ověření trhu). Návod k obnově je v jejím README.
+- `coming-soon/` — původní titulní stránka „Coming soon“ s animovaným kotlíkem.
 
-## Ostré spuštění /final (až budou podklady a schválení)
+## Úpravy
 
-1. Přesunout obsah `final/` na root (nahradí Coming soon).
-2. Odstranit `noindex` meta (označeno komentářem DRAFT) a vrátit absolutní cesty (`../assets` → `assets`, relativní odkazy → hezké URL).
-3. robots.txt: povolit vše; sitemap: home + 3 persony + GDPR; 301 pro `/gold` a `/green`.
-   (Celý postup umí Claude Code jedním commitem — stačí říct „spouštíme final".)
+- **Texty:** přímo v HTML. Hromadné úpravy přes Word podklady (`podklady/`, není v Gitu).
+- **Fotky:** při výměně obrázku použít **nový název souboru** — `/assets/*` má na Netlify roční cache.
+- **Video:** YouTube ID v `index.html` (`data-youtube-id`), přehrávač `youtube-nocookie` se načte až po kliknutí.
+- **Lokální náhled:** `python -m http.server 8080` v kořeni repa (v Claude Code přes `.claude/launch.json`) → http://localhost:8080
 
 ## Deploy
 
 GitHub `rennymarx/tamforever-web` (main) → Netlify auto-deploy → **https://tamforever.cz**
-(HTTPS Let's Encrypt, DNS na Forpsi). Formuláře: Netlify Forms → notifikace → Make → HubSpot (P12).
-
-## Lokální náhled
-
-Dev server `C:\COWORK_Vivo\tools\dev-server.ps1` (port 8085, spouští Claude Code přes preview).
+(HTTPS Let's Encrypt, DNS na Forpsi). Formuláře: Netlify Forms (`poptavka`, `poptavka-mesta`, `poptavka-firmy`, `poptavka-svatby`) → notifikace → Make → HubSpot.
+Staré adresy `/gold/*` a `/final/*` přesměrovává `netlify.toml` (301) na ostrý web.

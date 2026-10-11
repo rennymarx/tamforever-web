@@ -12,8 +12,10 @@ Na ostrém webu je tato složka blokovaná (netlify.toml → 404), v Gitu zůst�
 Lokální náhled: `http://localhost:8080/_zaloha/2026-10-11-gold-pred-skrytim-cen/gold/`
 
 ## Jak ceny vrátit
-CSS pro všechny skryté prvky je v `gold/css/style.css` dál (nic se nemazalo), stačí vrátit HTML:
-1. ceny u formátů: `<div class="fcell__price">…</div>` za `.fcell__size` (soubory pro-mesta/firmy/svatby.html),
+> Od 11. 10. 2026 je Gold ostrý web v **kořeni repa** (`index.html`, `pro-*.html`, `css/style.css`) — ne už ve složce `gold/`. Cesty k obrázkům tam jsou `assets/…`, ne `../assets/…`.
+
+CSS pro všechny skryté prvky je v `css/style.css` dál (nic se nemazalo), stačí vrátit HTML:
+1. ceny u formátů: `<div class="fcell__price">…</div>` za `.fcell__size` (soubory pro-mesta/firmy/svatby.html v kořeni),
 2. ceník: celou `<section …>` s „04 · Cena“ vložit před sekci poptávky a eyebrow poptávky přečíslovat zpět na „05 · Poptávka“,
 3. box „Stáhněte“: `<div class="infobox">…</div>` do `<aside class="lhero__aside">` za box Persona (až budou PDF),
 4. volné termíny na titulce: `<div>` s `.dates__head` do `.contact__grid` za formulář.
