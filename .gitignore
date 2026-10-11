@@ -13,3 +13,6 @@ desktop.ini
 
 # Netlify
 .netlify/
+
+# Pracovní podklady (texty k úpravě apod.) — nepatří na web
+podklady/

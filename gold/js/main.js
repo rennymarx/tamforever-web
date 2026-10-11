@@ -90,11 +90,27 @@
     onScroll();
   }
 
+  /* ---------- Demo video (YouTube) — přehrávač se vloží až po kliknutí, bez cookies do té doby ---------- */
+  function initVideo() {
+    var media = document.querySelector(".media[data-youtube-id]");
+    if (!media) return;
+    media.addEventListener("click", function (e) {
+      e.preventDefault();
+      var box = document.createElement("div");
+      box.className = "media media--playing";
+      box.innerHTML =
+        '<iframe src="https://www.youtube-nocookie.com/embed/' + media.getAttribute("data-youtube-id") + '?autoplay=1&rel=0"' +
+        ' allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Demo video TAM forever"></iframe>';
+      media.parentNode.replaceChild(box, media);
+    });
+  }
+
   function init() {
     renderStages();
     initNav();
     initMarquee();
     initScrollReveal();
+    initVideo();
   }
 
   if (document.readyState === "loading") {
