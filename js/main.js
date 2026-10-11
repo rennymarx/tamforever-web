@@ -105,12 +105,25 @@
     });
   }
 
+  /* ---------- Odkaz s kotvou (např. QR kód v dopise → tamforever.cz/#demo) ----------
+     Prohlížeč skočí na kotvu dřív, než se načtou fotky a písma, a stránka se pak posune.
+     Po načtení proto cíl dorovnáme (scroll-margin v CSS počítá s lištou navigace). */
+  function initHashScroll() {
+    var id = window.location.hash.slice(1);
+    var target = id && document.getElementById(id);
+    if (!target) return;
+    window.addEventListener("load", function () {
+      setTimeout(function () { target.scrollIntoView({ block: "start", behavior: "instant" }); }, 60);
+    });
+  }
+
   function init() {
     renderStages();
     initNav();
     initMarquee();
     initScrollReveal();
     initVideo();
+    initHashScroll();
   }
 
   if (document.readyState === "loading") {
