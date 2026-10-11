@@ -15,7 +15,7 @@ Statický web — **žádný build, žádné závislosti.** Čisté HTML + CSS +
 404.html                     „Tady se nehraje.“
 css/style.css, js/main.js    styly a skripty pro všechny stránky
 assets/                      fotky (.webp + menší varianty pro mobil), loga, og-image, favicony
-green/                       záloha designu „Vlnoplocha“ (noindex, robots Disallow)
+green/                       druhý design „Vlnoplocha“ se STEJNÝM obsahem jako ostrý web (noindex, robots Disallow)
 _zaloha/                     zálohy pro pozdější návrat (na webu blokované → 404)
 ```
 
@@ -23,8 +23,12 @@ _zaloha/                     zálohy pro pozdější návrat (na webu blokované
 
 - `2026-10-11-gold-pred-skrytim-cen/` — Gold i s **ceníkem, cenami u formátů, volnými termíny a boxem „Stáhněte“** (skryto do ověření trhu). Návod k obnově je v jejím README.
 - `coming-soon/` — původní titulní stránka „Coming soon“ s animovaným kotlíkem.
+- `2026-10-11-green-original/` — Green v původní podobě návrhu (před přenesením obsahu z ostrého webu).
 
 ## Úpravy
+
+> **Green drží stejný obsah jako ostrý web.** Při změně textů/fotek na webu je potřeba promítnout je i do `green/` (jiné HTML, stejné texty).
+
 
 - **Texty:** přímo v HTML. Hromadné úpravy přes Word podklady (`podklady/`, není v Gitu).
 - **Fotky:** při výměně obrázku použít **nový název souboru** — `/assets/*` má na Netlify roční cache.

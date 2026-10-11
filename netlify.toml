@@ -88,6 +88,19 @@
   from = "/green/pro-svatby"
   to = "/green/pro-svatby.html"
   status = 200
+[[redirects]]
+  from = "/green/dekujeme"
+  to = "/green/dekujeme.html"
+  status = 200
+[[redirects]]
+  from = "/green/ochrana-osobnich-udaju"
+  to = "/green/ochrana-osobnich-udaju.html"
+  status = 200
+# Neexistující stránka pod /green → 404 v designu Green (bez force = existující soubory mají přednost)
+[[redirects]]
+  from = "/green/*"
+  to = "/green/404.html"
+  status = 404
 
 # ---------- Bezpečnostní hlavičky (všude) ----------
 [[headers]]
