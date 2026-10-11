@@ -112,8 +112,16 @@
     var id = window.location.hash.slice(1);
     var target = id && document.getElementById(id);
     if (!target) return;
+    // jakmile návštěvník sám scrolluje, už do toho nesaháme
+    var touched = false;
+    ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+      window.addEventListener(ev, function () { touched = true; }, { passive: true, once: true });
+    });
+    function go() { if (!touched) target.scrollIntoView({ block: "start", behavior: "instant" }); }
     window.addEventListener("load", function () {
-      setTimeout(function () { target.scrollIntoView({ block: "start", behavior: "instant" }); }, 60);
+      // písma z Google se dotahují i po „load“ a nadpisy nad cílem pak změní výšku
+      var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+      fonts.then(function () { setTimeout(go, 60); setTimeout(go, 700); });
     });
   }
 
