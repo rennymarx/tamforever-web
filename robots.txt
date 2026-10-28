@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
-# Záloha designu a interní složky — neindexovat
-Disallow: /green/
+# Interní složky — neindexovat
 Disallow: /_zaloha/
 Disallow: /dekujeme
 

@@ -1,5 +1,5 @@
 # Netlify konfigurace — statický web, žádný build.
-# Ostrý web = kořen (verze Gold, spuštěno 2026-10-11). Záloha designu: /green (noindex).
+# Ostrý web = kořen (verze Gold, spuštěno 2026-10-11). Design Green jen jako záloha v _zaloha/green (od 2026-10-28 mimo produkci).
 [build]
   publish = "."
   command = ""
@@ -31,7 +31,7 @@
   status = 404
   force = true
 
-# ---------- Staré drafty → ostrý web (301, odkazy z doby ladění nespadnou) ----------
+# ---------- Staré drafty a Green → ostrý web (301, staré odkazy nespadnou) ----------
 [[redirects]]
   from = "/gold"
   to = "/"
@@ -49,6 +49,16 @@
   force = true
 [[redirects]]
   from = "/final/*"
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/green"
+  to = "/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/green/*"
   to = "/:splat"
   status = 301
   force = true
@@ -75,32 +85,6 @@
   to = "/ochrana-osobnich-udaju.html"
   status = 200
 
-# ---------- Záloha designu /green (noindex) ----------
-[[redirects]]
-  from = "/green/pro-mesta"
-  to = "/green/pro-mesta.html"
-  status = 200
-[[redirects]]
-  from = "/green/pro-firmy"
-  to = "/green/pro-firmy.html"
-  status = 200
-[[redirects]]
-  from = "/green/pro-svatby"
-  to = "/green/pro-svatby.html"
-  status = 200
-[[redirects]]
-  from = "/green/dekujeme"
-  to = "/green/dekujeme.html"
-  status = 200
-[[redirects]]
-  from = "/green/ochrana-osobnich-udaju"
-  to = "/green/ochrana-osobnich-udaju.html"
-  status = 200
-# Neexistující stránka pod /green → 404 v designu Green (bez force = existující soubory mají přednost)
-[[redirects]]
-  from = "/green/*"
-  to = "/green/404.html"
-  status = 404
 
 # ---------- Bezpečnostní hlavičky (všude) ----------
 [[headers]]
@@ -123,9 +107,5 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 [[headers]]
   for = "/js/*"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-[[headers]]
-  for = "/green/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
