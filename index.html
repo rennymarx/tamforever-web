@@ -42,6 +42,7 @@
       <a href="#repertoar">Hudba</a>
       <a href="#pro-poradatele">Pro pořadatele</a>
       <a href="#reference">Reference</a>
+      <a href="#koncerty" class="js-nav-koncerty" hidden>Koncerty</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
     <a class="btn btn--sm nav__cta" href="#kontakt">Pošlete poptávku →</a>
@@ -230,6 +231,25 @@ a výročí</h3>
           <figcaption class="quote__who">Lukáš Č. · HR Manager · výrobní firma · 800 lidí</figcaption>
         </figure>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================= KONCERTY =============================
+       Program z Google Kalendáře „TAM koncerty“ přes /api/concerts (netlify/functions/concerts.mjs).
+       Sekce i odkaz v menu zůstávají skryté, dokud js/main.js nedostane data (initConcerts). -->
+  <section class="section section-pad panel-bg" id="koncerty" hidden>
+    <div class="wrap">
+      <p class="eyebrow">Koncerty</p>
+      <div class="ref-head">
+        <h2 class="h2">Kde hrajeme<span class="dot">.</span></h2>
+        <p class="ref-head__meta">veřejné koncerty<br>z kalendáře kapely</p>
+      </div>
+      <ol class="concerts__list js-concerts-upcoming" role="list" aria-label="Nadcházející koncerty"></ol>
+      <p class="concerts__note js-concerts-note" hidden>Další veřejný termín brzy. Chcete nás na svou akci? <a href="#kontakt">Pošlete poptávku</a>.</p>
+      <details class="concerts__archive js-concerts-archive" hidden>
+        <summary>Odehrané koncerty</summary>
+        <ol class="concerts__list js-concerts-past" role="list" aria-label="Odehrané koncerty"></ol>
+      </details>
     </div>
   </section>
 

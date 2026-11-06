@@ -14,5 +14,11 @@ desktop.ini
 # Netlify
 .netlify/
 
+# Tajemství pro lokální běh /api/concerts (.env.example je šablona bez hodnot)
+.env
+.env.*
+!.env.example
+node_modules/
+
 # Pracovní podklady (texty k úpravě apod.) — nepatří na web
 podklady/

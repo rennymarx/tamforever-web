@@ -3,5 +3,6 @@ Allow: /
 # Interní složky — neindexovat
 Disallow: /_zaloha/
 Disallow: /dekujeme
+Disallow: /api/
 
 Sitemap: https://tamforever.cz/sitemap.xml

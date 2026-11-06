@@ -3,9 +3,15 @@
   "configurations": [
     {
       "name": "tamforever",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8080", "--bind", "127.0.0.1"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/dev-server.mjs"],
       "port": 8080
+    },
+    {
+      "name": "tamforever-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8081", "--bind", "127.0.0.1"],
+      "port": 8081
     }
   ]
 }

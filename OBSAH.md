@@ -11,5 +11,7 @@ Stav k 11. 10. 2026 (spuštění verze Gold).
 | Fakturační identita v patičce | chybí | patičky všech stránek |
 | Odkazy na Spotify / YouTube / sociální sítě | chybí (v repertoáru je jen text) | `index.html`, sekce Repertoár |
 | Reference — jména a čísla | ověřit (citace Žanety, Lukáše, Pepy, Magdy) | titulka + podstránky |
+| Koncerty z Google Kalendáře | **kód hotov, čeká na nastavení** (ID kalendáře, service account, env v Netlify, `CONCERTS_ENABLED=true`) | README → „Koncerty z Google Kalendáře“ |
+| Tlačítko Vstupenky u koncertů | záměrně nenasazeno (prodej řeší pořadatel); parser `VSTUPENKY:` ignoruje | `netlify/lib/parser.mjs`, `js/main.js` |
 
-Hotovo: fotky v úvodu a referencích všech stránek, demo video (YouTube), telefon +420 722 929 158, texty dle Word podkladů.
+Hotovo: fotky v úvodu a referencích všech stránek, demo video (YouTube), telefon +420 722 929 158, texty dle Word podkladů, tajný setlist v repertoáru, SMS o poptávkách přes Make.

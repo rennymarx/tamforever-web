@@ -4,6 +4,12 @@
   publish = "."
   command = ""
 
+# Jediná serverová část webu: GET /api/concerts (program koncertů z Google Kalendáře).
+# Bez package.json a bez npm — funkce nemá závislosti, Netlify ji jen zabalí (esbuild).
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # ---------- Interní soubory repa nepatří na produkci ----------
 [[redirects]]
   from = "/README.md"
@@ -27,6 +33,27 @@
   force = true
 [[redirects]]
   from = "/.claude/*"
+  to = "/404.html"
+  status = 404
+  force = true
+# zdrojáky funkce, testy a dev nástroje (publish = "." by je jinak servíroval jako statické soubory)
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/tests/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/tools/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/.env.example"
   to = "/404.html"
   status = 404
   force = true
@@ -93,6 +120,9 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# POZOR: [[headers]] se na odpovědi Netlify Functions NEaplikují. Hlavičky /api/concerts (noindex, cache,
+# Netlify-Vary) posílá výhradně samotná funkce (BASE_HEADERS v netlify/functions/concerts.mjs).
 
 # ---------- Cache ----------
 # Assety (fotky, loga, favicony) — dlouhá cache. POZOR: při výměně obrázku použít NOVÝ název souboru.

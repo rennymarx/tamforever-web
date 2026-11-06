@@ -123,6 +123,129 @@
       var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
       fonts.then(function () { setTimeout(go, 60); setTimeout(go, 700); });
     });
+    // vrací dorovnání pro případ, že se nad cílem později odkryje sekce (koncerty)
+    return go;
+  }
+
+  /* ---------- Koncerty z Google Kalendáře (přes /api/concerts) ----------
+     Sekce #koncerty a odkaz v menu jsou v HTML skryté; odkryjí se jen s platnými daty.
+     Chyba, prázdná odpověď nebo nevalidní tvar = vše zůstane skryté (nikdy falešné „žádné koncerty“).
+     Render výhradně přes createElement/textContent – data z kalendáře se nikdy nevkládají jako HTML. */
+  function initConcerts(onFirstRender) {
+    var section = document.getElementById("koncerty");
+    if (!section || typeof window.fetch !== "function") return;
+    var upcomingList = section.querySelector(".js-concerts-upcoming");
+    var pastList = section.querySelector(".js-concerts-past");
+    var archive = section.querySelector(".js-concerts-archive");
+    var note = section.querySelector(".js-concerts-note");
+    var navLink = document.querySelector(".js-nav-koncerty");
+    var lastFetch = 0;
+    var lastData = null; // poslední platná odpověď – po návratu do záložky se z ní přepočítá „právě hrajeme“ / archiv
+    var rendered = false;
+    var tz = "Europe/Prague";
+    var fmtDay = new Intl.DateTimeFormat("cs-CZ", { timeZone: tz, day: "numeric", month: "numeric", year: "numeric" });
+    var fmtWeekday = new Intl.DateTimeFormat("cs-CZ", { timeZone: tz, weekday: "short" });
+    var fmtTime = new Intl.DateTimeFormat("cs-CZ", { timeZone: tz, hour: "2-digit", minute: "2-digit" });
+
+    function el(tag, cls, text) {
+      var e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+
+    function validConcert(c) {
+      return c && typeof c === "object" &&
+        typeof c.title === "string" && c.title.length > 0 && c.title.length <= 200 &&
+        typeof c.start === "string" && typeof c.end === "string" &&
+        isFinite(Date.parse(c.start)) && isFinite(Date.parse(c.end)) &&
+        (c.location == null || typeof c.location === "string") &&
+        (c.publicText == null || typeof c.publicText === "string");
+    }
+
+    function row(c, now, highlight) {
+      var li = el("li", "concert" + (highlight ? " concert--next" : ""));
+      var start = new Date(c.start), end = new Date(c.end);
+      var date = el("div", "concert__date", fmtDay.format(start));
+      date.appendChild(el("small", null, fmtWeekday.format(start) + " · " + fmtTime.format(start)));
+      li.appendChild(date);
+
+      var body = el("div");
+      var title = el("div", "concert__title", c.title);
+      if (start.getTime() <= now && now < end.getTime()) title.appendChild(el("span", "concert__badge", "právě hrajeme"));
+      body.appendChild(title);
+      if (c.location) body.appendChild(el("div", "concert__meta", c.location));
+      if (c.publicText) body.appendChild(el("p", "concert__text", c.publicText));
+      li.appendChild(body);
+
+      if (c.location) {
+        var actions = el("div", "concert__actions");
+        var map = el("a", "btn btn--sm btn--ghost", "Mapa");
+        map.href = "https://mapy.com/?q=" + encodeURIComponent(c.location);
+        map.target = "_blank";
+        map.rel = "noopener noreferrer";
+        map.setAttribute("aria-label", "Mapa: " + c.location);
+        actions.appendChild(map);
+        li.appendChild(actions);
+      }
+      return li;
+    }
+
+    function render(data) {
+      if (!data || data.version !== 1 || data.status !== "ok" || !Array.isArray(data.concerts)) return false;
+      var concerts = data.concerts.filter(validConcert);
+      var now = Date.now();
+      var upcoming = concerts.filter(function (c) { return Date.parse(c.end) >= now; })
+        .sort(function (a, b) { return Date.parse(a.start) - Date.parse(b.start); });
+      var past = concerts.filter(function (c) { return Date.parse(c.end) < now; })
+        .sort(function (a, b) { return Date.parse(b.start) - Date.parse(a.start); });
+      if (!upcoming.length && !past.length) return false;
+
+      upcomingList.textContent = "";
+      upcoming.forEach(function (c, i) { upcomingList.appendChild(row(c, now, i === 0)); });
+      upcomingList.hidden = upcoming.length === 0;
+      note.hidden = upcoming.length > 0;
+
+      pastList.textContent = "";
+      past.forEach(function (c) { pastList.appendChild(row(c, now, false)); });
+      archive.hidden = past.length === 0;
+
+      section.hidden = false;
+      if (navLink) navLink.hidden = false;
+      lastData = data;
+      if (!rendered) {
+        rendered = true;
+        // sekce se odkryla nad kotvou (#demo, #kontakt…) → cíl odkazu znovu dorovnat
+        if (typeof onFirstRender === "function") onFirstRender();
+      }
+      return true;
+    }
+
+    /* Vypnuto / výpadek / prázdný program → web vypadá jako bez sekce (nikdy falešné „žádné koncerty“). */
+    function hide() {
+      section.hidden = true;
+      if (navLink) navLink.hidden = true;
+      lastData = null;
+    }
+
+    function load() {
+      lastFetch = Date.now();
+      fetch("/api/concerts", { credentials: "omit" })
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (data) { if (!render(data)) hide(); })
+        .catch(function () {
+          // síť selhala (ne odpověď serveru): necháme poslední platná data, jen přepočítáme časy
+          if (!lastData || !render(lastData)) hide();
+        });
+    }
+
+    load();
+    // po návratu do záložky obnovit (nejvýš jednou za minutu) – bez periodického pollingu
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState !== "visible") return;
+      if (Date.now() - lastFetch > 60000) load();
+      else if (lastData) render(lastData);
+    });
   }
 
   function init() {
@@ -131,7 +254,8 @@
     initMarquee();
     initScrollReveal();
     initVideo();
-    initHashScroll();
+    var realign = initHashScroll(); // jen registruje posluchače; dorovnání běží až po „load“
+    initConcerts(realign);
   }
 
   if (document.readyState === "loading") {
