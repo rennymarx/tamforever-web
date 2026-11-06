@@ -48,6 +48,16 @@ Staré adresy `/gold/*`, `/final/*` a `/green/*` přesměrovává `netlify.toml`
 
 ## Koncerty z Google Kalendáře (`/api/concerts`)
 
+**Dva kalendáře (mechanismus zveřejnění, rozhodnuto 6. 11. 2026):**
+
+| kalendář | kdo píše | kdo čte | web |
+|---|---|---|---|
+| **TAM rezervace** | kapela + obchodníci (právo úprav) — zapisují rezervace a jednání | všichni sdílení | **nečte** — service account sem není nasdílen |
+| **TAM koncerty** | **jen schvalovatelé** (komu Radek dá právo úprav; mění se v čase) | všichni jen „Zobrazit podrobnosti“; service account jen pro čtení | čte jen tento (`GOOGLE_CALENDAR_ID`) |
+
+Potvrzení koncertu = schvalovatel **přesune událost** z „TAM rezervace“ do „TAM koncerty“ (Upravit → kalendář → Uložit) a zároveň přepíše `WEB: NE` → `WEB: ANO`. Obchodník do „TAM koncerty“ zapsat nemůže (aplikace mu ten kalendář v přepínači nenabídne), takže nepotvrzená rezervace se na web nedostane ani omylem. Zelená barva události v rezervacích = „pořadatel potvrdil, ke zveřejnění“ — jen signál pro lidi, kód barvu nečte.
+Funkce ACL kalendáře nečte — pojistka drží jen dokud má právo úprav v „TAM koncerty“ jen schvalovatel. **Po každé změně sdílení zkontrolovat:** „TAM koncerty“ → Nastavení → Sdílet s konkrétními lidmi → právo „Provádět změny“ jen schvalovatelé, „spravovat sdílení“ jen marketing@.
+
 **Tok:** Google Kalendář „TAM koncerty“ (soukromý, účet marketing@rennymarx.com, nasdílen service accountu jen pro čtení)
 → Netlify Function `netlify/functions/concerts.mjs` (volá se až při cache miss) → CDN cache Netlify (5 min čerstvé + 2 min stale-while-revalidate) → `js/main.js` `initConcerts()` vykreslí sekci `#koncerty` na titulce.
 Prohlížeč nikdy nevolá Google. Ven jde jen DTO: `publicId, title, start, end, location, publicText` — nikdy popis, hosté, organizátor, odkazy.
@@ -55,10 +65,10 @@ Změna v kalendáři **nespouští deploy**; na webu je běžně do 5 minut, nej
 Cache klíč nezávisí na query stringu (`Netlify-Vary: query=__none`) — `?v=…` tedy neobchází cache a nevolá Google navíc.
 Publikují se jen události **založené přímo v kalendáři „TAM koncerty“** (`organizer.self`); pozvánky přeposlané z cizích kalendářů se nepublikují. `GOOGLE_CALENDAR_ID` musí být ID sekundárního kalendáře (`…@group.calendar.google.com`) — osobní kalendář (e-mail) ani `primary` funkce odmítne (`config`).
 
-**Šablona události** (kapela dostala návod `podklady/kalendar-navod-kapela.md`):
+**Šablona události** (návody: `podklady/kalendar-navod-kapela.md` pro kapelu, `podklady/kalendar-navod-obchodnici.md` zkrácený pro obchodníky):
 ```
 Název:   Město – Název akce          Místo: klub/náměstí + adresa      Čas: skutečný začátek a konec vystoupení
-Popis:   WEB: NE                     ← ANO až po schválení; cokoli jiného = nezveřejnit
+Popis:   WEB: NE                     ← ANO přepíše až schvalovatel při přesunu do TAM koncerty; cokoli jiného = nezveřejnit
          VEŘEJNÝ TEXT: jedna věta pro návštěvníky (nepovinné, max 300 znaků)
          INTERNÍ:                    ← samostatný řádek; všechno pod ním je neveřejné
          příjezd, zvukovka, kontakty, poznámky…
@@ -72,7 +82,8 @@ Kdo může zapisovat do `main`, může změnit funkci a klíč vypsat → na Git
 
 **Provoz:**
 - *Vypnout sekci (kill switch):* `CONCERTS_ENABLED=false` → Trigger deploy. Funkce vrací 404, sekce i odkaz v menu zmizí.
-- *Stažení koncertu:* v kalendáři `WEB: NE` nebo smazat → zmizí běžně do 5 min, nejpozději ~7 min. Nouzově Netlify → Deploys → **Trigger deploy** (nový deploy vyčistí CDN cache i „poslední dobrá data“ v instancích funkce; samotné Purge cache instance nevyčistí).
+- *Stažení koncertu:* v „TAM koncerty“ `WEB: NE`, přesun zpět do „TAM rezervace“ nebo smazat → zmizí běžně do 5 min, nejpozději ~7 min. (Přesun mění Google id → jiný `publicId`; frontend ho nikde neukládá, nevadí.)
+- *Před rozesláním návodů ověřit na Androidu i iPhonu:* (a) rezervace s `WEB: ANO` v „TAM rezervace“ se v `/api/concerts` neobjeví; (b) z účtu obchodníka přepínač kalendáře „TAM koncerty“ nenabídne; (c) schvalovatel přesune událost založenou někým jiným → do 7 min na webu; (d) přesun zpět → zmizí. Výsledky + datum zapsat sem. Nouzově Netlify → Deploys → **Trigger deploy** (nový deploy vyčistí CDN cache i „poslední dobrá data“ v instancích funkce; samotné Purge cache instance nevyčistí).
 - *Výpadek Googlu / neplatný klíč:* instance funkce drží poslední dobrá data max 30 min (odpověď má `X-Concerts-Stale: 1`), pak 503 a sekce i odkaz v menu zmizí (žádný chybový banner). Už stažený koncert tak může být vidět nejdéle ~30 min. 503 se na CDN drží 60 s, aby výpadek nespouštěl funkci každým návštěvníkem.
 - *Rotace klíče:* nový JSON klíč v Cloud Console → `GOOGLE_PRIVATE_KEY` → Trigger deploy → smazat starý klíč.
 - *Diagnostika:* `curl -i https://tamforever.cz/api/concerts` → 200 `"status":"ok"`; v Netlify → Logs → Functions jen agregáty (`concerts ok pages=… published=…`) nebo `concerts error code=…`:
