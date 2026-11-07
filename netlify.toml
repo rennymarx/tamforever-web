@@ -10,6 +10,30 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# ---------- Stará doména tamrock.cz (+ www) → tamforever.cz, trvale (301), vše na úvodní stránku (staré podstránky Webnode na novém webu neexistují) ----------
+# Vyžaduje: tamrock.cz a www.tamrock.cz jako Domain alias v Netlify a DNS u Forpsi (A 75.2.60.5, www CNAME aesthetic-toffee-d9dfe5.netlify.app).
+# Musí být PŘED ostatními pravidly (první shoda vyhrává). http varianty kryjí dobu, než Netlify vystaví certifikát.
+[[redirects]]
+  from = "https://tamrock.cz/*"
+  to = "https://tamforever.cz/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "http://tamrock.cz/*"
+  to = "https://tamforever.cz/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://www.tamrock.cz/*"
+  to = "https://tamforever.cz/"
+  status = 301
+  force = true
+[[redirects]]
+  from = "http://www.tamrock.cz/*"
+  to = "https://tamforever.cz/"
+  status = 301
+  force = true
+
 # ---------- Interní soubory repa nepatří na produkci ----------
 [[redirects]]
   from = "/README.md"
