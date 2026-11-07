@@ -14,6 +14,6 @@ Stav k 11. 10. 2026 (spuštění verze Gold).
 | Koncerty z Google Kalendáře | **v provozu od 7. 11. 2026** (`CONCERTS_ENABLED=true`, akceptace proběhla 7. 11.); zbývá ověření z mobilů před rozesláním návodů | README → „Koncerty z Google Kalendáře“ |
 | Zveřejnění koncertu = přesun z „TAM rezervace“ do „TAM koncerty“ | rozhodnuto 6. 11. 2026; od 7. 11. bez šablony: veřejný je jen název (`Město - Klub: doplněk`), místo a čas; popis je interní a nestahuje se; soukromé akce = název „Soukromá akce“ bez místa | README → „Co je na webu“; návody v `podklady/` |
 | Tlačítko Vstupenky u koncertů | záměrně nenasazeno (prodej řeší pořadatel); vstupné lze napsat do doplňku za dvojtečkou v názvu | `netlify/lib/title.mjs`, `js/main.js` |
-| Stará doména tamrock.cz (+ www) | připraveno 7. 11. 2026: 301 na úvodní stránku tamforever.cz přes Netlify; čeká na Domain alias v Netlify, DNS ve Forpsi (A `75.2.60.5`, www CNAME `aesthetic-toffee-d9dfe5.netlify.app`, MX nechat) a odpojení ve Webnode | `netlify.toml` (pravidla nahoře) |
+| Stará doména tamrock.cz (+ www) | **v provozu od 7. 11. 2026**: 301 na úvodní stránku tamforever.cz přes Netlify (Domain alias, certifikát Let's Encrypt); DNS ve Forpsi: A `75.2.60.5`, www CNAME `aesthetic-toffee-d9dfe5.netlify.app`, MX a poštovní záznamy beze změny; zbývá odpojit doménu ve Webnode a pak smazat `files.tamrock.cz` | `netlify.toml` (pravidla nahoře) |
 
 Hotovo: fotky v úvodu a referencích všech stránek, demo video (YouTube), telefon +420 722 929 158, texty dle Word podkladů, tajný setlist v repertoáru, SMS o poptávkách přes Make.
