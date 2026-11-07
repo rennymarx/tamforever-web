@@ -12,7 +12,7 @@ const CANARIES = /CANARY_[A-Z]+_[a-z0-9]+|@example\.com|canarycalendar/;
 
 test("fixtures opravdu obsahují kanárky (jinak by test nic nedokazoval)", () => {
   const raw = JSON.stringify(fixtures);
-  for (const c of ["CANARY_INTERNAL_m3k", "CANARY_ATTENDEE_x7q", "CANARY_ORGANIZER_q9z", "CANARY_TITLE_NE", "CANARY_SCRIPT_z1x"]) {
+  for (const c of ["CANARY_INTERNAL_m3k", "CANARY_ATTENDEE_x7q", "CANARY_ORGANIZER_q9z", "CANARY_PRIVATE_w8d", "CANARY_SCRIPT_z1x", "CANARY_FOREIGNTEXT_f6h"]) {
     assert.match(raw, new RegExp(c));
   }
 });
@@ -45,7 +45,7 @@ test("veřejné soubory webu neobsahují nic z Google strany", async () => {
 });
 
 test("zdrojové soubory funkce neobsahují tajemství ani konkrétní ID kalendáře", async () => {
-  for (const f of ["netlify/functions/concerts.mjs", "netlify/lib/google.mjs", "netlify/lib/parser.mjs", "netlify/lib/project.mjs"]) {
+  for (const f of ["netlify/functions/concerts.mjs", "netlify/lib/google.mjs", "netlify/lib/title.mjs", "netlify/lib/project.mjs"]) {
     const s = await readFile(new URL(f, root), "utf8");
     assert.doesNotMatch(s, /BEGIN PRIVATE KEY|@group\.calendar\.google\.com|\.iam\.gserviceaccount\.com/, f);
   }

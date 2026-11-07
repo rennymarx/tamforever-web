@@ -17,7 +17,7 @@ const ENV = {
 const fixtures = JSON.parse(await readFile(new URL("./fixtures/google-events.json", import.meta.url), "utf8"));
 
 function ev(id, start) {
-  return { id, status: "confirmed", summary: "Město – " + id, description: "WEB: ANO\nINTERNÍ:",
+  return { id, status: "confirmed", summary: "Město – " + id, description: "Honorář CANARY_INTERNAL_m3k",
     organizer: { self: true }, start: { dateTime: start }, end: { dateTime: start.replace("T20", "T22") }, attendees: [{ email: "CANARY_ATTENDEE_x7q@example.com" }] };
 }
 const PAGE1 = { nextPageToken: "p2", items: [ev("a", "2027-06-01T20:00:00+02:00"), ev("b", "2027-06-08T20:00:00+02:00")] };
@@ -92,7 +92,8 @@ test("stránky se slepí, duplicitní id nezdvojí, hlavičky cache a tvar odpov
   assert.equal(u.searchParams.get("singleEvents"), "true");
   assert.equal(u.searchParams.get("orderBy"), "startTime");
   assert.equal(u.searchParams.get("showDeleted"), "false");
-  assert.match(u.searchParams.get("fields"), /items\(id,status,summary,description,location,start,end,organizer\(self\)\)/);
+  assert.match(u.searchParams.get("fields"), /items\(id,status,summary,location,start,end,organizer\(self\)\)/);
+  assert.doesNotMatch(u.searchParams.get("fields"), /description/); // popis je interní – od Googlu se ani nežádá
   assert.match(u.searchParams.get("timeMin"), /^2025-11-06T/);
   assert.match(u.searchParams.get("timeMax"), /^2028-11-06T/);
   // log jen agregát

@@ -8,8 +8,8 @@ const fixtures = JSON.parse(await readFile(new URL("./fixtures/google-events.jso
 
 function base(over) {
   return Object.assign({
-    id: "evt_1", status: "confirmed", summary: "Město – Akce",
-    description: "WEB: ANO\nVEŘEJNÝ TEXT: Text.\nINTERNÍ:\nCANARY_INTERNAL_m3k",
+    id: "evt_1", status: "confirmed", summary: "Město - Akce: Text.",
+    description: "Honorář CANARY_INTERNAL_m3k",
     location: "Náměstí 1, Město",
     start: { dateTime: "2027-06-19T19:00:00+02:00" }, end: { dateTime: "2027-06-19T22:00:00+02:00" },
     attendees: [{ email: "CANARY_ATTENDEE_x7q@example.com" }], organizer: { email: "CANARY_ORGANIZER_q9z@example.com", self: true },
@@ -29,12 +29,13 @@ test("publicId je stabilní hash, ne Google id", () => {
   assert.notEqual(dto.publicId, "evt_1");
 });
 
-test("vyřazení: cancelled, celodenní, chybějící čas, prázdný název, WEB: NE", () => {
+test("vyřazení: cancelled, celodenní, chybějící čas, prázdný název", () => {
   assert.equal(projectEvent(base({ status: "cancelled" })).reason, "cancelled");
   assert.equal(projectEvent(base({ start: { date: "2027-06-19" }, end: { date: "2027-06-20" } })).reason, "all_day_or_incomplete");
   assert.equal(projectEvent(base({ end: {} })).reason, "all_day_or_incomplete");
   assert.equal(projectEvent(base({ summary: "   " })).reason, "no_title");
-  assert.equal(projectEvent(base({ description: "WEB: NE\nINTERNÍ:" })).reason, "web_not_ano");
+  assert.equal(projectEvent(base({ summary: ": jen doplněk" })).reason, "no_title");
+  assert.equal(projectEvent(base({ summary: undefined })).reason, "no_title"); // soukromá viditelnost: Google název nepošle
   assert.equal(projectEvent(base({ end: { dateTime: "2027-06-19T18:00:00+02:00" } })).reason, "bad_time");
   // bez offsetu (lokální čas bez pásma) by si prohlížeč čas vyložil podle sebe → nepublikovat
   assert.equal(projectEvent(base({ start: { dateTime: "2027-06-19T19:00:00" } })).reason, "bad_time");
@@ -72,21 +73,30 @@ test("řazení podle začátku", () => {
   assert.deepEqual(r.concerts.map((c) => c.start), ["2027-03-01T20:00:00+01:00", "2027-09-01T20:00:00+02:00"]);
 });
 
-test("fixtures: publikují se jen schválené události, kanárky nikde", () => {
+test("název → title + publicText, popis se ignoruje; soukromá akce je běžná událost", () => {
+  const { dto } = projectEvent(base());
+  assert.equal(dto.title, "Město – Akce");
+  assert.equal(dto.publicText, "Text.");
+  assert.doesNotMatch(JSON.stringify(dto), /Honorář|CANARY/);
+  const priv = projectEvent(base({ summary: "Soukromá akce", location: undefined })).dto;
+  assert.equal(priv.title, "Soukromá akce");
+  assert.equal(priv.location, null);
+});
+
+test("fixtures: publikují se události s názvem z tohoto kalendáře, kanárky nikde", () => {
   const r = projectEvents(fixtures.items);
-  const titles = r.concerts.map((c) => c.title);
-  assert.deepEqual(titles, [
-    "Klatovy – Zažít město jinak",
-    "Praha – Slavnost městské části Praha 9",
-    "Praha – Letní scéna (opakovaná řada)",
-    "Přelouč – Letní noc",
-    "Valtice – Vinobraní",
-    "Nymburk – Posvícení",
+  assert.deepEqual(r.concerts.map((c) => [c.title, c.publicText]), [
+    ["Soukromá akce", null],
+    ["Praha – Klub Rock ballad", "Předkapela Strom, naši dlouholetí kamarádi, vstupné 100 Kč"],
+    ["Praha – Letní scéna", "Pravidelná letní scéna."],
+    ["Přelouč – Letní noc", null],
+    ["Valtice – Vinobraní, začátek 20:00", "Sobotní večer na zámeckém nádvoří."],
+    ["Nymburk – Posvícení", "Pouťový večer"],
   ]);
-  assert.doesNotMatch(JSON.stringify(r.concerts), /CANARY|@example\.com|<|script/);
+  assert.doesNotMatch(JSON.stringify(r.concerts), /CANARY|@example\.com|<|script|Honorář|Pořadatel/);
   assert.equal(r.counts.cancelled, 1);
   assert.equal(r.counts.all_day_or_incomplete, 1);
-  assert.equal(r.counts.no_separator, 1);
+  assert.equal(r.counts.no_title, 2);
   assert.equal(r.counts.foreign_organizer, 1);
 });
 

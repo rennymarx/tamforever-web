@@ -8,9 +8,9 @@ import { createSign } from "node:crypto";
 export const SCOPE = "https://www.googleapis.com/auth/calendar.events.readonly";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const EVENTS_URL = "https://www.googleapis.com/calendar/v3/calendars/";
-// partial response: attendees, organizer e-mail, creator, htmlLink, conferenceData… nikdy neopustí Google;
+// partial response: popis (interní), attendees, organizer e-mail, creator, htmlLink, conferenceData… nikdy neopustí Google;
 // organizer(self) je jen boolean „událost patří tomuto kalendáři“ (filtr proti cizím pozvánkám)
-const FIELDS = "nextPageToken,items(id,status,summary,description,location,start,end,organizer(self))";
+const FIELDS = "nextPageToken,items(id,status,summary,location,start,end,organizer(self))";
 // ID sdíleného (sekundárního) kalendáře; osobní kalendář (e-mail) ani "primary" nepovolujeme —
 // do osobního kalendáře chodí pozvánky od kohokoli
 const RE_CALENDAR_ID = /^[a-z0-9._%+-]+@group\.calendar\.google\.com$/i;

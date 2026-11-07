@@ -21,7 +21,7 @@ const now = () => clock;
 function ev(id, start) {
   return {
     id, status: "confirmed", summary: "Město – " + id, organizer: { self: true, email: "CANARY_ORGANIZER_q9z@example.com" },
-    description: "WEB: ANO" + NL + "INTERNÍ:" + NL + "CANARY_INTERNAL_m3k",
+    description: "Honorář" + NL + "CANARY_INTERNAL_m3k",
     start: { dateTime: start }, end: { dateTime: start.replace("T20", "T22") },
     attendees: [{ email: "CANARY_ATTENDEE_x7q@example.com" }], htmlLink: "https://calendar.google.com/CANARY_LINK_h4r",
   };

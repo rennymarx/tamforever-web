@@ -1,18 +1,14 @@
 /* Projekce událostí z Google Calendar API na veřejné DTO.
-   Z každé události jde ven JEN pevný výčet polí – nikdy celý objekt, nikdy spread. */
+   Z každé události jde ven JEN pevný výčet polí – nikdy celý objekt, nikdy spread.
+   Zveřejnění = událost je v kalendáři „TAM koncerty“ (přesunem z „TAM rezervace“). Veřejný text je jen v názvu
+   (viz title.mjs); popis události je interní a funkce ho od Googlu vůbec nežádá. */
 import { createHash } from "node:crypto";
-import { parseDescription } from "./parser.mjs";
+import { splitTitle, clip } from "./title.mjs";
 
 export const DTO_KEYS = ["publicId", "title", "start", "end", "location", "publicText"];
-const TITLE_MAX = 120;
 const LOCATION_MAX = 200;
 // RFC3339 s povinným offsetem (Google ho u dateTime vždy posílá); bez offsetu by si prohlížeč čas vyložil jinak
 const RE_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
-
-function clip(s, max) {
-  var t = String(s == null ? "" : s).replace(/\s+/g, " ").trim();
-  return t.length > max ? t.slice(0, max - 1).trimEnd() + "…" : t;
-}
 
 /** Nevratný stabilní identifikátor výskytu (Google id → sha256, 16 hex znaků). */
 export function publicIdFor(id) {
@@ -35,20 +31,18 @@ export function projectEvent(item) {
   if (!RE_DATETIME.test(start) || !RE_DATETIME.test(end)) return { dto: null, reason: "bad_time" };
   if (!Number.isFinite(Date.parse(start)) || !Number.isFinite(Date.parse(end))) return { dto: null, reason: "bad_time" };
   if (Date.parse(end) < Date.parse(start)) return { dto: null, reason: "bad_time" };
-  var title = clip(item.summary, TITLE_MAX);
-  if (!title) return { dto: null, reason: "no_title" };
-  var parsed = parseDescription(item.description);
-  if (!parsed.publish) return { dto: null, reason: parsed.reason };
+  var parts = splitTitle(item.summary);
+  if (!parts.title) return { dto: null, reason: "no_title" };
   var location = clip(item.location, LOCATION_MAX);
 
   // explicitní sestavení – přidání nového pole vyžaduje vědomou změnu DTO_KEYS i testů
   var dto = {
     publicId: publicIdFor(item.id),
-    title: title,
+    title: parts.title,
     start: start,
     end: end,
     location: location || null,
-    publicText: parsed.publicText,
+    publicText: parts.publicText,
   };
   return { dto: dto, reason: "ok" };
 }

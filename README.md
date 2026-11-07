@@ -55,25 +55,25 @@ Staré adresy `/gold/*`, `/final/*` a `/green/*` přesměrovává `netlify.toml`
 | **TAM rezervace** | kapela + obchodníci (právo úprav) — zapisují rezervace a jednání | všichni sdílení | **nečte** — service account sem není nasdílen |
 | **TAM koncerty** | **jen schvalovatelé** (komu Radek dá právo úprav; mění se v čase) | všichni jen „Zobrazit podrobnosti“; service account jen pro čtení | čte jen tento (`GOOGLE_CALENDAR_ID`) |
 
-Potvrzení koncertu = schvalovatel **přesune událost** z „TAM rezervace“ do „TAM koncerty“ (Upravit → kalendář → Uložit) a zároveň přepíše `WEB: NE` → `WEB: ANO`. Obchodník do „TAM koncerty“ zapsat nemůže (aplikace mu ten kalendář v přepínači nenabídne), takže nepotvrzená rezervace se na web nedostane ani omylem. Zelená barva události v rezervacích = „pořadatel potvrdil, ke zveřejnění“ — jen signál pro lidi, kód barvu nečte.
+Potvrzení a zveřejnění koncertu = schvalovatel **přesune událost** z „TAM rezervace“ do „TAM koncerty“ (Upravit → kalendář → Uložit). **Všechno v „TAM koncerty“ jde na web** (časovaná, nezrušená událost s názvem); žádná značka v popisu (rozhodnuto 7. 11. 2026). Obchodník do „TAM koncerty“ zapsat nemůže (aplikace mu ten kalendář v přepínači nenabídne), takže nepotvrzená rezervace se na web nedostane ani omylem. Zelená barva události v rezervacích = „pořadatel potvrdil, ke zveřejnění“ — jen signál pro lidi, kód barvu nečte.
 Funkce ACL kalendáře nečte — pojistka drží jen dokud má právo úprav v „TAM koncerty“ jen schvalovatel. **Po každé změně sdílení zkontrolovat:** „TAM koncerty“ → Nastavení → Sdílet s konkrétními lidmi → právo „Provádět změny“ jen schvalovatelé, „spravovat sdílení“ jen marketing@.
 
 **Tok:** Google Kalendář „TAM koncerty“ (soukromý, účet marketing@rennymarx.com, nasdílen service accountu jen pro čtení)
 → Netlify Function `netlify/functions/concerts.mjs` (volá se až při cache miss) → CDN cache Netlify (5 min čerstvé + 2 min stale-while-revalidate) → `js/main.js` `initConcerts()` vykreslí sekci `#koncerty` na titulce.
-Prohlížeč nikdy nevolá Google. Ven jde jen DTO: `publicId, title, start, end, location, publicText` — nikdy popis, hosté, organizátor, odkazy.
+Prohlížeč nikdy nevolá Google. Ven jde jen DTO: `publicId, title, start, end, location, publicText` — nikdy popis, hosté, organizátor, odkazy. **Popis události funkce od Googlu vůbec nežádá** (`fields=` ho nevyjmenovává), je čistě interní pro kapelu.
 Změna v kalendáři **nespouští deploy**; na webu je běžně do 5 minut, nejpozději do ~7 minut (u málo navštěvované stránky obnoví cache až další návštěvník).
 Cache klíč nezávisí na query stringu (`Netlify-Vary: query=__none`) — `?v=…` tedy neobchází cache a nevolá Google navíc.
 Publikují se jen události **založené přímo v kalendáři „TAM koncerty“** (`organizer.self`); pozvánky přeposlané z cizích kalendářů se nepublikují. `GOOGLE_CALENDAR_ID` musí být ID sekundárního kalendáře (`…@group.calendar.google.com`) — osobní kalendář (e-mail) ani `primary` funkce odmítne (`config`).
 
-**Šablona události** (návody: `podklady/kalendar-navod-kapela.md` pro kapelu, `podklady/kalendar-navod-obchodnici.md` zkrácený pro obchodníky):
+**Co je na webu** (žádná šablona; návody: `podklady/kalendar-navod-kapela.md`, `podklady/kalendar-navod-obchodnici.md`):
 ```
-Název:   Město – Název akce          Místo: klub/náměstí + adresa      Čas: skutečný začátek a konec vystoupení
-Popis:   WEB: NE                     ← ANO přepíše až schvalovatel při přesunu do TAM koncerty; cokoli jiného = nezveřejnit
-         VEŘEJNÝ TEXT: jedna věta pro návštěvníky (nepovinné, max 300 znaků)
-         INTERNÍ:                    ← samostatný řádek; všechno pod ním je neveřejné
-         příjezd, zvukovka, kontakty, poznámky…
+Název:  Praha - Klub Rock ballad: Předkapela Strom, naši dlouholetí kamarádi, vstupné 100 Kč
+        └─ název akce na webu ─┘ └─ veřejný doplněk (nepovinný, max 300 znaků) ───────────┘
+Místo:  veřejné (odkaz na mapu)          Čas: veřejný (skutečný začátek a konec vystoupení)
+Popis:  INTERNÍ pro kapelu — na web nikdy nejde, funkce ho ani nestahuje
 ```
-Pravidla parseru (`netlify/lib/parser.mjs`, fail-closed): chybí `INTERNÍ:` → nezveřejnit; `WEB:` musí být před ním právě jednou s hodnotou `ANO`; celodenní a zrušené události se nezveřejňují; `VSTUPENKY:` se zatím ignoruje (web tlačítko nemá). Název, místo a čas jsou veřejné — editoři kalendáře jsou autory veřejného obsahu.
+Pravidla (`netlify/lib/title.mjs`): název se dělí na **první dvojtečce, která není uvnitř času** (`20:00` se nedělí); bez dvojtečky je celý název titulek a doplněk chybí; ` - ` se zobrazí jako `–`; název max 120 znaků. Celodenní, zrušené a bezejmenné události (i ty se soukromou viditelností — Google název čtenáři nepošle) se nezveřejňují.
+**Soukromé akce** řeší schvalovatel názvem („Soukromá akce“) — software je nerozlišuje. Na web jde datum, čas a **Místo** → u soukromé akce Místo nevyplňovat (nebo jen město). Název, místo a čas jsou veřejné — editoři „TAM koncerty“ jsou autory veřejného obsahu.
 
 **Nastavení (Netlify → Project configuration → Environment variables, kontext Production; „Contains secret values“ jen u `GOOGLE_PRIVATE_KEY` — u ostatních ne, secret scanning by jinak mohl zablokovat deploy):**
 `GOOGLE_CALENDAR_ID` (ID z Nastavení kalendáře → Integrace, ne `primary`), `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY` (jen PEM blok z JSON klíče, `\n` jako dva znaky je v pořádku), `CONCERTS_ENABLED` (`true`/`false`). Změna env vyžaduje **Trigger deploy**.
@@ -82,8 +82,8 @@ Kdo může zapisovat do `main`, může změnit funkci a klíč vypsat → na Git
 
 **Provoz:**
 - *Vypnout sekci (kill switch):* `CONCERTS_ENABLED=false` → Trigger deploy. Funkce vrací 404, sekce i odkaz v menu zmizí.
-- *Stažení koncertu:* v „TAM koncerty“ `WEB: NE`, přesun zpět do „TAM rezervace“ nebo smazat → zmizí běžně do 5 min, nejpozději ~7 min. (Přesun mění Google id → jiný `publicId`; frontend ho nikde neukládá, nevadí.)
-- *Před rozesláním návodů ověřit na Androidu i iPhonu:* (a) rezervace s `WEB: ANO` v „TAM rezervace“ se v `/api/concerts` neobjeví; (b) z účtu obchodníka přepínač kalendáře „TAM koncerty“ nenabídne; (c) schvalovatel přesune událost založenou někým jiným → do 7 min na webu; (d) přesun zpět → zmizí. Výsledky + datum zapsat sem. Nouzově Netlify → Deploys → **Trigger deploy** (nový deploy vyčistí CDN cache i „poslední dobrá data“ v instancích funkce; samotné Purge cache instance nevyčistí).
+- *Stažení koncertu:* přesun zpět do „TAM rezervace“ nebo smazat → zmizí běžně do 5 min, nejpozději ~7 min. (Přesun mění Google id → jiný `publicId`; frontend ho nikde neukládá, nevadí.)
+- *Před rozesláním návodů ověřit na Androidu i iPhonu:* (a) rezervace v „TAM rezervace“ se v `/api/concerts` neobjeví; (b) z účtu obchodníka přepínač kalendáře „TAM koncerty“ nenabídne; (c) schvalovatel přesune událost založenou někým jiným → do 7 min na webu; (d) přesun zpět → zmizí. Výsledky + datum zapsat sem. Nouzově Netlify → Deploys → **Trigger deploy** (nový deploy vyčistí CDN cache i „poslední dobrá data“ v instancích funkce; samotné Purge cache instance nevyčistí).
 - *Výpadek Googlu / neplatný klíč:* instance funkce drží poslední dobrá data max 30 min (odpověď má `X-Concerts-Stale: 1`), pak 503 a sekce i odkaz v menu zmizí (žádný chybový banner). Už stažený koncert tak může být vidět nejdéle ~30 min. 503 se na CDN drží 60 s, aby výpadek nespouštěl funkci každým návštěvníkem.
 - *Rotace klíče:* nový JSON klíč v Cloud Console → `GOOGLE_PRIVATE_KEY` → Trigger deploy → smazat starý klíč.
 - *Diagnostika:* `curl -i https://tamforever.cz/api/concerts` → 200 `"status":"ok"`; v Netlify → Logs → Functions jen agregáty (`concerts ok pages=… published=…`) nebo `concerts error code=…`:
@@ -102,5 +102,5 @@ Kdo může zapisovat do `main`, může změnit funkci a klíč vypsat → na Git
   | `parse` | odpověď events.list nebyla očekávaný JSON | ověřit, že ID je kalendář (ne e-mail) |
   | `too_many_pages` | víc než 4 × 2500 událostí v okně −12/+24 měsíců | promazat kalendář (web neukáže nic, dokud se nevejde) |
   | `unknown` | neočekávaná výjimka | podívat se do kódu funkce |
-- *Testy:* `node --test tests/` (bez sítě; kanárky v `tests/fixtures/` ověřují, že interní data nikam neprosáknou; `tests/*-hardening.test.mjs` pokrývají obcházení cache, neúplné stránkování, 401, komentáře v HTML, exotická zalomení).
+- *Testy:* `node --test tests/` (bez sítě; kanárky v `tests/fixtures/` ověřují, že interní data nikam neprosáknou; `tests/endpoint-hardening.test.mjs` pokrývá obcházení cache, neúplné stránkování, 401; `tests/title.test.mjs` dělení názvu, neviditelné znaky, emoji a délkové limity).
 - *Okno dat:* −12 / +24 měsíců; archiv „Odehrané koncerty“ tedy ukazuje nejvýš rok zpět.
