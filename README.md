@@ -75,9 +75,9 @@ Popis:   WEB: NE                     ← ANO přepíše až schvalovatel při p�
 ```
 Pravidla parseru (`netlify/lib/parser.mjs`, fail-closed): chybí `INTERNÍ:` → nezveřejnit; `WEB:` musí být před ním právě jednou s hodnotou `ANO`; celodenní a zrušené události se nezveřejňují; `VSTUPENKY:` se zatím ignoruje (web tlačítko nemá). Název, místo a čas jsou veřejné — editoři kalendáře jsou autory veřejného obsahu.
 
-**Nastavení (Netlify → Site → Environment variables, kontext Production, „Contains secret values“):**
+**Nastavení (Netlify → Project configuration → Environment variables, kontext Production; „Contains secret values“ jen u `GOOGLE_PRIVATE_KEY` — u ostatních ne, secret scanning by jinak mohl zablokovat deploy):**
 `GOOGLE_CALENDAR_ID` (ID z Nastavení kalendáře → Integrace, ne `primary`), `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY` (jen PEM blok z JSON klíče, `\n` jako dva znaky je v pořádku), `CONCERTS_ENABLED` (`true`/`false`). Změna env vyžaduje **Trigger deploy**.
-Service account `tamforever-calendar-reader` v Google Cloud projektu `tamforever-web` (účet marketing@), bez rolí; kalendář mu nasdílen „Zobrazit všechny podrobnosti událostí“. Scope jen `calendar.events.readonly`.
+Service account `tamforever-calendar-reader` v Google Cloud projektu `tamforever-web` (účet marketing@), bez rolí; kalendář mu nasdílen „Zobrazení podrobností o události“ (See event details). Podrobný postup: `podklady/google-cloud-navod.md` (lokálně, gitignored). Projekt pod organizací (Workspace, založená po 5/2024) blokuje vytváření klíčů → výjimka v Organization policies jen pro projekt. Scope jen `calendar.events.readonly`.
 Kdo může zapisovat do `main`, může změnit funkci a klíč vypsat → na GitHubu zapnout **branch protection** pro `main` a 2FA; klíč nikdy do repa, chatu ani na Drive (jen Netlify env + lokální gitignored `.env`).
 
 **Provoz:**

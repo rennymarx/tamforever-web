@@ -19,6 +19,8 @@ desktop.ini
 .env.*
 !.env.example
 node_modules/
+# JSON klíč service accountu (stažený z Google Cloud) — nikdy do repa ani na web
+tamforever-web*.json
 
 # Pracovní podklady (texty k úpravě apod.) — nepatří na web
 podklady/
